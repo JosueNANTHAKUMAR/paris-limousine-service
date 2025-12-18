@@ -189,10 +189,10 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
               <div className="text-3xl font-serif font-bold text-slate-50 mb-6 tracking-tight">
-                Paris<span className="text-gold">Limousine</span>
+                Paris<span className="text-gold">LimousineService</span>
               </div>
               <p className="text-slate-400 max-w-sm leading-relaxed font-light">
-                We are the most popular limousine service in New York. (Note: Text from source).
+                We are the most popular limousine service in Paris.
                 Providing luxury chauffeur services with a focus on safety, comfort, and reliability.
               </p>
             </div>
