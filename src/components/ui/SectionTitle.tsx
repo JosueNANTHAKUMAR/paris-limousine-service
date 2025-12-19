@@ -17,16 +17,22 @@ export function SectionTitle({ title, subtitle, className, light = false }: Sect
 
     return (
         <div className={clsx("text-center mb-16", className)}>
-            <h2 className={clsx(
-                "text-3xl md:text-5xl font-serif mb-6 relative inline-block",
-                light ? "text-slate-50" : "text-slate-900"
-            )}>
-                {title}
-                <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></span>
-            </h2>
+            <div className="inline-block relative">
+                <h2 className={clsx(
+                    "text-3xl md:text-5xl font-serif mb-4",
+                    light ? "text-slate-50" : "text-slate-900"
+                )}>
+                    {title}
+                </h2>
+                <div className="flex items-center justify-center gap-3">
+                    <div className="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-[#D4AF37]"></div>
+                    <div className="w-2 h-2 rotate-45 bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
+                    <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-[#D4AF37]"></div>
+                </div>
+            </div>
             {subtitle && (
                 <p className={clsx(
-                    "text-lg font-light leading-relaxed max-w-2xl mx-auto mt-4",
+                    "text-lg font-light leading-relaxed max-w-2xl mx-auto mt-8",
                     light ? "text-slate-400" : "text-slate-600"
                 )}>
                     {subtitle}
