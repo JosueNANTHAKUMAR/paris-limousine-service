@@ -11,7 +11,7 @@ export function FleetSection() {
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
 
     return (
-        <section id="fleet" className="py-24 bg-slate-950">
+        <section id="fleet" className="py-24 bg-slate-950 snap-start">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-4xl md:text-5xl font-serif text-slate-50">Our Premium Fleet</h2>

@@ -13,12 +13,14 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
 import { motion, AnimatePresence } from "framer-motion";
+import { useActiveSection } from "@/lib/hooks/useActiveSection";
 
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
+  const activeSection = useActiveSection(["booking", "destinations", "services", "fleet", "packages", "about", "contact"]);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 selection:bg-gold/30 selection:text-gold">
+    <main className="min-h-screen bg-slate-950 text-slate-50 selection:bg-gold/30 selection:text-gold scroll-smooth snap-y snap-mandatory overflow-y-scroll h-screen">
       {/* Noise Texture Overlay */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
@@ -44,16 +46,21 @@ export default function Home() {
           </div>
           {/* Desktop links (visible on lg and up) */}
           <div className="hidden lg:flex items-center space-x-10">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-xs font-bold text-slate-300 hover:text-gold transition-colors uppercase tracking-[0.15em] relative group py-2 transform hover:scale-105"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold transition-all duration-300 ease-out group-hover:w-full shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`text-xs font-bold transition-colors uppercase tracking-[0.15em] relative group py-2 transform hover:scale-105 ${isActive ? 'text-gold' : 'text-slate-300 hover:text-gold'
+                    }`}
+                >
+                  {link.label}
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gold transition-all duration-300 ease-out shadow-[0_0_10px_rgba(212,175,55,0.5)] ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
+                </Link>
+              );
+            })}
           </div>
           {/* Mobile hamburger button */}
           <button
@@ -74,32 +81,77 @@ export default function Home() {
       {/* Mobile menu overlay */}
       <AnimatePresence>
         {navOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-40 flex flex-col items-center pt-24"
-          >
-            <button
-              className="absolute top-4 right-4 p-2 text-slate-300 hover:text-gold"
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setNavOpen(false)}
-              aria-label="Close menu"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]"
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] bg-slate-950 border-l border-slate-800/50 z-[70] flex flex-col"
             >
-              <X className="h-6 w-6" />
-            </button>
-            <nav className="space-y-6 text-center">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-xl font-bold text-slate-300 hover:text-gold transition-colors"
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-slate-800/50">
+                <div className="text-xl font-serif font-bold text-slate-50">
+                  Menu
+                </div>
+                <button
+                  className="p-2 rounded-full bg-slate-900 text-slate-400 hover:text-gold hover:bg-slate-800 transition-colors"
                   onClick={() => setNavOpen(false)}
+                  aria-label="Close menu"
                 >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </motion.div>
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="flex-1 overflow-y-auto py-8 px-6">
+                <div className="space-y-2">
+                  {NAV_LINKS.map((link, index) => (
+                    <motion.div
+                      key={link.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link
+                        href={link.href}
+                        className="block py-3 px-4 text-base font-medium text-slate-300 hover:text-gold hover:bg-slate-900/50 rounded-lg transition-all duration-200 group"
+                        onClick={() => setNavOpen(false)}
+                      >
+                        <span className="flex items-center justify-between">
+                          {link.label}
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                            →
+                          </span>
+                        </span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </nav>
+
+              {/* Footer CTA */}
+              <div className="p-6 border-t border-slate-800/50">
+                <a
+                  href="#booking"
+                  onClick={() => setNavOpen(false)}
+                  className="block w-full py-3 px-6 bg-gradient-to-r from-gold to-gold-light text-slate-950 font-bold text-sm uppercase tracking-wider rounded-full text-center hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-105 transition-all duration-300"
+                >
+                  Book Now
+                </a>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -110,7 +162,7 @@ export default function Home() {
       <DestinationsSection />
 
       {/* Services Section */}
-      <section id="services" className="py-24 bg-slate-900 relative z-10 overflow-hidden">
+      <section id="services" className="py-24 bg-slate-900 relative z-10 overflow-hidden snap-start">
         <BackgroundPattern opacity={0.02} />
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
@@ -151,7 +203,7 @@ export default function Home() {
       <HourlyPackages />
 
       {/* Why Choose Us */}
-      <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10">
+      <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10 snap-start">
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
             <div className="text-center mb-16">
