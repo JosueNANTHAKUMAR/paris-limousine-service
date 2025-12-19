@@ -15,9 +15,17 @@ import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActiveSection } from "@/lib/hooks/useActiveSection";
 
+import { QuoteCalculator } from "@/components/features/QuoteCalculator";
+
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const activeSection = useActiveSection(["booking", "destinations", "services", "fleet", "packages", "about", "contact"]);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+  };
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 selection:bg-gold/30 selection:text-gold">
@@ -164,7 +172,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <HeroSection />
+      <HeroSection onOpenModal={openModal} />
 
       <FeaturesStrip />
 
@@ -310,6 +318,62 @@ export default function Home() {
         </div>
       </footer>
 
+      {/* Global Mobile Booking Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-slate-950/90 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="absolute inset-x-0 bottom-0 top-16 bg-slate-900 rounded-t-[2.5rem] border-t border-slate-800 shadow-2xl overflow-hidden flex flex-col"
+            >
+              {/* Handle Bar */}
+              <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+
+              <div className="p-6 flex items-center justify-between border-b border-slate-800/50 shrink-0">
+                <h3 className="text-2xl font-serif text-slate-50">Book Your Transfer</h3>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-hidden relative bg-slate-900">
+                <div className="h-full max-w-md mx-auto">
+                  <QuoteCalculator isModal={true} />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Sticky Book Now Button (Mobile) */}
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: activeSection !== "booking" ? 0 : 100 }}
+        transition={{ duration: 0.3 }}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[40] lg:hidden w-full px-4 max-w-sm"
+      >
+        <button
+          onClick={openModal}
+          className="w-full py-4 bg-[#D4AF37] text-slate-950 font-bold text-lg rounded-full shadow-2xl shadow-gold/20 flex items-center justify-center gap-2"
+        >
+          Book Now <ArrowRight className="h-5 w-5" />
+        </button>
+      </motion.div>
+
       {/* Back to Top Button (Mobile Optimized) */}
       <motion.button
         initial={{ opacity: 0, scale: 0.5 }}
@@ -318,10 +382,10 @@ export default function Home() {
           window.scrollTo({ top: 0, behavior: 'smooth' });
           if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
         }}
-        className="fixed bottom-6 right-6 z-[40] p-4 bg-gold text-slate-950 rounded-full shadow-2xl shadow-gold/20 lg:hidden"
+        className="fixed bottom-24 right-6 z-[40] p-3 bg-slate-800 text-gold rounded-full shadow-xl border border-slate-700 lg:hidden"
         aria-label="Back to top"
       >
-        <ArrowRight className="h-6 w-6 -rotate-90" />
+        <ArrowRight className="h-5 w-5 -rotate-90" />
       </motion.button>
     </main>
   );

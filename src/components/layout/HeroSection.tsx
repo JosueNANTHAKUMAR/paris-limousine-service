@@ -1,20 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { QuoteCalculator } from "@/components/features/QuoteCalculator";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-export function HeroSection() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+interface HeroSectionProps {
+    onOpenModal: () => void;
+}
 
-    const openModal = () => {
-        setIsModalOpen(true);
-        if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
-    };
-
+export function HeroSection({ onOpenModal }: HeroSectionProps) {
     return (
         <section id="booking" className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden">
             {/* Background Image & Overlay */}
@@ -52,7 +47,7 @@ export function HeroSection() {
                     {/* Mobile Booking Trigger */}
                     <div className="lg:hidden flex flex-col items-center gap-4 pt-4">
                         <Button
-                            onClick={openModal}
+                            onClick={onOpenModal}
                             className="w-full max-w-sm py-7 text-lg !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-extrabold rounded-full shadow-2xl shadow-gold/30 transform active:scale-95 transition-all flex items-center justify-center"
                         >
                             Book Your Chauffeur <ArrowRight className="ml-2 h-6 w-6" />
@@ -73,47 +68,6 @@ export function HeroSection() {
                     <QuoteCalculator />
                 </div>
             </div>
-
-            {/* Mobile Booking Modal (Bottom Sheet Style) */}
-            <AnimatePresence>
-                {isModalOpen && (
-                    <div className="fixed inset-0 z-[100] lg:hidden">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsModalOpen(false)}
-                            className="absolute inset-0 bg-slate-950/90 backdrop-blur-md"
-                        />
-                        <motion.div
-                            initial={{ y: "100%" }}
-                            animate={{ y: 0 }}
-                            exit={{ y: "100%" }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="absolute inset-x-0 bottom-0 top-16 bg-slate-900 rounded-t-[2.5rem] border-t border-slate-800 shadow-2xl overflow-hidden flex flex-col"
-                        >
-                            {/* Handle Bar */}
-                            <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto mt-4 mb-2 shrink-0" />
-
-                            <div className="p-6 flex items-center justify-between border-b border-slate-800/50 shrink-0">
-                                <h3 className="text-2xl font-serif text-slate-50">Book Your Transfer</h3>
-                                <button
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="p-2 bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors"
-                                >
-                                    <X className="h-5 w-5" />
-                                </button>
-                            </div>
-
-                            <div className="flex-1 overflow-hidden relative bg-slate-900">
-                                <div className="h-full max-w-md mx-auto">
-                                    <QuoteCalculator isModal={true} />
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
         </section>
     );
 }
