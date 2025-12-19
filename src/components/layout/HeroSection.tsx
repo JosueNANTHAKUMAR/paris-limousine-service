@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function HeroSection() {
     return (
-        <section id="booking" className="relative min-h-screen flex items-center justify-center pt-20 pb-20 overflow-hidden snap-start">
+        <section id="booking" className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden snap-start">
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
