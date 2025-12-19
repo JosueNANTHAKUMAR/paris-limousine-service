@@ -45,11 +45,11 @@ export default function Home() {
         <div className="container mx-auto px-6 h-24 flex items-center justify-between">
           <div className="flex items-center">
             <Image
-              src="/images/logo_v_class_abstract.png"
+              src="/images/logo_v_class_abstract_transparent.png"
               alt="Paris Limousine Service"
               width={300}
-              height={80}
-              className="h-[72px] w-auto object-contain"
+              height={90}
+              className="h-[90px] w-auto object-contain"
               priority
             />
           </div>
