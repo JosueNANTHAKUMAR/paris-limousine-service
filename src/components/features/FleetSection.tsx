@@ -28,14 +28,14 @@ export function FleetSection() {
                             className="group relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-gold/50 transition-all duration-500 cursor-pointer hover:shadow-2xl hover:shadow-gold/5"
                         >
                             {/* Image Area */}
-                            <div className="relative h-48 sm:h-64 w-full bg-slate-950/50 overflow-hidden flex items-center justify-center p-4">
+                            <div className="relative h-48 sm:h-64 w-full bg-slate-950/50 overflow-hidden flex items-center justify-center">
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10" />
                                 <div className="relative w-full h-full">
                                     <Image
                                         src={vehicle.image}
                                         alt={vehicle.name}
                                         fill
-                                        className="object-contain group-hover:scale-110 transition-transform duration-700 z-0"
+                                        className="object-cover group-hover:scale-110 transition-transform duration-700 z-0"
                                     />
                                 </div>
                                 <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
