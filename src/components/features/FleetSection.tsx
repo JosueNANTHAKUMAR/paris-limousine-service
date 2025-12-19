@@ -6,6 +6,7 @@ import { Users, Briefcase, X, Check, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
 export function FleetSection() {
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -13,12 +14,11 @@ export function FleetSection() {
     return (
         <section id="fleet" className="py-24 bg-slate-950">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16 space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-serif text-slate-50">Our Premium Fleet</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        Choose from our exclusive collection of Mercedes-Benz vehicles, designed for ultimate comfort and style.
-                    </p>
-                </div>
+                <SectionTitle
+                    title="Our Premium Fleet"
+                    subtitle="Choose from our exclusive collection of Mercedes-Benz vehicles, designed for ultimate comfort and style."
+                    light={true}
+                />
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {FLEET.map((vehicle) => (

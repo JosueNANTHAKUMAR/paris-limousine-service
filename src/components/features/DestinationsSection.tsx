@@ -29,6 +29,7 @@ const DESTINATIONS = [
 ];
 
 import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
 export function DestinationsSection() {
     return (
@@ -36,12 +37,11 @@ export function DestinationsSection() {
             <BackgroundPattern opacity={0.02} />
             <div className="container mx-auto px-4">
                 <ScrollReveal>
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif text-slate-50 mb-4">
-                            Popular <span className="text-gold">Destinations</span>
-                        </h2>
-                        <p className="text-slate-400 text-lg font-light">Discover our most requested transfer services</p>
-                    </div>
+                    <SectionTitle
+                        title="Popular Destinations"
+                        subtitle="Discover our most requested transfer services"
+                        light={true}
+                    />
                 </ScrollReveal>
 
                 <div className="grid md:grid-cols-3 gap-8">

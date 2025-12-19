@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
 const LANDMARKS = [
     { name: "Eiffel Tower", image: "/images/landmarks/eiffel.jpg" },
@@ -61,12 +62,11 @@ export function HourlyPackages() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <ScrollReveal>
-                    <div className="text-center mb-16 space-y-4">
-                        <h2 className="text-4xl md:text-5xl font-serif text-slate-50">Hourly Hire Package</h2>
-                        <p className="text-slate-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-                            Are you looking to hire a Paris Disney Transfer car for a day out with a driver, or perhaps just a few hours? Choose your perfect plan.
-                        </p>
-                    </div>
+                    <SectionTitle
+                        title="Hourly Hire Package"
+                        subtitle="Are you looking to hire a Paris Disney Transfer car for a day out with a driver, or perhaps just a few hours? Choose your perfect plan."
+                        light={true}
+                    />
                 </ScrollReveal>
 
                 <div className="grid md:grid-cols-3 gap-8">

@@ -14,6 +14,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActiveSection } from "@/lib/hooks/useActiveSection";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
 import { QuoteCalculator } from "@/components/features/QuoteCalculator";
 
@@ -183,12 +184,11 @@ export default function Home() {
         <BackgroundPattern opacity={0.02} />
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-serif text-slate-50 mb-4">
-                Our <span className="text-gold">Services</span>
-              </h2>
-              <p className="text-slate-400 text-lg font-light">Tailor made travel just for you</p>
-            </div>
+            <SectionTitle
+              title="Our Services"
+              subtitle="Tailor made travel just for you"
+              light={true}
+            />
           </ScrollReveal>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -223,12 +223,11 @@ export default function Home() {
       <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10">
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-serif text-slate-50 mb-6">Why Choose Us?</h2>
-              <p className="text-slate-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-                Empowering Your Business Vision, Transforming The Challenges Into Opportunities.
-              </p>
-            </div>
+            <SectionTitle
+              title="Why Choose Us?"
+              subtitle="Empowering Your Business Vision, Transforming The Challenges Into Opportunities."
+              light={true}
+            />
           </ScrollReveal>
 
           <div className="grid md:grid-cols-3 gap-x-12 gap-y-16">
@@ -364,11 +363,11 @@ export default function Home() {
         initial={{ y: 100 }}
         animate={{ y: activeSection !== "booking" ? 0 : 100 }}
         transition={{ duration: 0.3 }}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[40] lg:hidden w-full px-4 max-w-sm"
+        className="fixed bottom-6 inset-x-0 z-[40] lg:hidden flex justify-center px-4 pointer-events-none"
       >
         <button
           onClick={openModal}
-          className="w-full py-4 bg-[#D4AF37] text-slate-950 font-bold text-lg rounded-full shadow-2xl shadow-gold/20 flex items-center justify-center gap-2"
+          className="pointer-events-auto w-full max-w-sm py-4 bg-gradient-to-r from-[#D4AF37] to-[#F2D06B] text-slate-950 font-bold text-lg rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2 border border-white/20"
         >
           Book Now <ArrowRight className="h-5 w-5" />
         </button>
