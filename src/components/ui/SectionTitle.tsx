@@ -26,7 +26,7 @@ export function SectionTitle({ title, subtitle, className, light = false }: Sect
                 </h2>
                 <div className="flex items-center justify-center gap-3">
                     <div className="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-[#D4AF37]"></div>
-                    <div className="w-2 h-2 rotate-45 bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
                     <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-[#D4AF37]"></div>
                 </div>
             </div>
