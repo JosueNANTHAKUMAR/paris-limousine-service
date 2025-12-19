@@ -108,14 +108,14 @@ export function FleetSection() {
 
                             <div className="grid md:grid-cols-2">
                                 {/* Left: Image & Info */}
-                                <div className="relative h-72 md:h-auto bg-slate-950">
+                                <div className="relative h-48 md:h-auto bg-slate-950">
                                     <Image
                                         src={selectedVehicle.image}
                                         alt={selectedVehicle.name}
                                         fill
-                                        className="object-cover"
+                                        className="object-contain md:object-cover opacity-60 p-4 md:p-0"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" />
                                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                                         <div className="text-gold text-sm font-bold tracking-wider uppercase mb-2">
                                             {selectedVehicle.category}
