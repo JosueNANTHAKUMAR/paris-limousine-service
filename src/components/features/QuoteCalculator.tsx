@@ -11,7 +11,11 @@ import { clsx } from "clsx";
 
 type ServiceType = 'distance' | 'hourly';
 
-export function QuoteCalculator() {
+interface QuoteCalculatorProps {
+    isModal?: boolean;
+}
+
+export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [serviceType, setServiceType] = useState<ServiceType>('distance');
 
@@ -78,7 +82,10 @@ export function QuoteCalculator() {
     };
 
     return (
-        <div className="w-full max-w-full sm:max-w-md mx-auto bg-slate-950/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10">
+        <div className={clsx(
+            "w-full max-w-full sm:max-w-md mx-auto overflow-hidden",
+            !isModal && "bg-slate-950/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl shadow-2xl ring-1 ring-white/10"
+        )}>
             {/* Header & Tabs */}
             <div className="bg-slate-900/50 p-4 sm:p-6 border-b border-slate-800/50">
                 <h3 className="text-xl sm:text-2xl font-serif text-slate-50 mb-4 sm:mb-6 text-center">Book Your Transfer</h3>
