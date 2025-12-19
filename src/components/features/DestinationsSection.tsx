@@ -32,7 +32,7 @@ import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
 
 export function DestinationsSection() {
     return (
-        <section id="destinations" className="py-24 bg-slate-950 relative snap-start">
+        <section id="destinations" className="py-24 bg-slate-950 relative">
             <BackgroundPattern opacity={0.02} />
             <div className="container mx-auto px-4">
                 <ScrollReveal>

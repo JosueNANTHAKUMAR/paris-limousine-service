@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function HeroSection() {
     return (
-        <section id="booking" className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden snap-start">
+        <section id="booking" className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden">
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
@@ -21,12 +21,12 @@ export function HeroSection() {
             <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-8 text-center lg:text-left">
                     <div className="space-y-4">
-                        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-serif text-slate-50 leading-[1.1] tracking-tight">
+                        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-serif text-slate-50 leading-[1.1] tracking-tight">
                             Experience Paris
                         </h1>
-                        <div className="flex items-center justify-center lg:justify-start gap-4">
-                            <div className="h-[2px] w-16 bg-gradient-to-r from-transparent to-gold"></div>
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#D4AF37] italic">
+                        <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
+                            <div className="h-[1px] sm:h-[2px] w-12 sm:w-16 bg-gradient-to-r from-transparent to-gold"></div>
+                            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-[#D4AF37] italic">
                                 in Timeless Luxury
                             </h2>
                         </div>

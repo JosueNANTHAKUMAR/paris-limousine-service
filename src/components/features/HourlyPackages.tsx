@@ -55,7 +55,7 @@ export function HourlyPackages() {
     };
 
     return (
-        <section id="packages" className="py-24 bg-slate-900 relative overflow-hidden snap-start">
+        <section id="packages" className="py-24 bg-slate-900 relative overflow-hidden">
             {/* Background Texture */}
             <BackgroundPattern opacity={0.03} />
 

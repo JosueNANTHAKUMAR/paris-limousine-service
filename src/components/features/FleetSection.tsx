@@ -11,7 +11,7 @@ export function FleetSection() {
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
 
     return (
-        <section id="fleet" className="py-24 bg-slate-950 snap-start">
+        <section id="fleet" className="py-24 bg-slate-950">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-4xl md:text-5xl font-serif text-slate-50">Our Premium Fleet</h2>
@@ -28,14 +28,16 @@ export function FleetSection() {
                             className="group relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-gold/50 transition-all duration-500 cursor-pointer hover:shadow-2xl hover:shadow-gold/5"
                         >
                             {/* Image Area */}
-                            <div className="relative h-64 w-full bg-slate-950 overflow-hidden">
+                            <div className="relative h-48 sm:h-64 w-full bg-slate-950/50 overflow-hidden flex items-center justify-center p-4">
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10" />
-                                <Image
-                                    src={vehicle.image}
-                                    alt={vehicle.name}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
+                                <div className="relative w-full h-full">
+                                    <Image
+                                        src={vehicle.image}
+                                        alt={vehicle.name}
+                                        fill
+                                        className="object-contain group-hover:scale-110 transition-transform duration-700 z-0"
+                                    />
+                                </div>
                                 <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <span className="bg-gold text-slate-950 text-xs font-bold px-3 py-1.5 rounded-full">View Prices</span>
                                 </div>
@@ -91,11 +93,14 @@ export function FleetSection() {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl shadow-black/50"
+                            className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl shadow-black/50 max-h-[90vh] overflow-y-auto custom-scrollbar"
                         >
                             {/* Close Button */}
                             <button
-                                onClick={() => setSelectedVehicle(null)}
+                                onClick={() => {
+                                    setSelectedVehicle(null);
+                                    if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(5);
+                                }}
                                 className="absolute top-4 right-4 p-2 bg-slate-800/50 hover:bg-slate-800 rounded-full text-slate-400 hover:text-white transition-colors z-10"
                             >
                                 <X className="h-5 w-5" />
@@ -103,15 +108,15 @@ export function FleetSection() {
 
                             <div className="grid md:grid-cols-2">
                                 {/* Left: Image & Info */}
-                                <div className="relative h-64 md:h-auto bg-slate-950">
+                                <div className="relative h-48 md:h-auto bg-slate-950">
                                     <Image
                                         src={selectedVehicle.image}
                                         alt={selectedVehicle.name}
                                         fill
-                                        className="object-cover opacity-60"
+                                        className="object-contain md:object-cover opacity-60 p-4 md:p-0"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                                    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                                         <div className="text-gold text-sm font-bold tracking-wider uppercase mb-2">
                                             {selectedVehicle.category}
                                         </div>
@@ -124,8 +129,8 @@ export function FleetSection() {
                                 </div>
 
                                 {/* Right: Pricing */}
-                                <div className="p-8 bg-slate-900">
-                                    <h4 className="text-lg font-serif text-slate-50 mb-6 flex items-center">
+                                <div className="p-6 md:p-8 bg-slate-900">
+                                    <h4 className="text-lg font-serif text-slate-50 mb-4 md:mb-6 flex items-center">
                                         Fixed Rates <span className="ml-auto text-xs font-sans text-slate-500 uppercase tracking-wider">One Way</span>
                                     </h4>
 
@@ -159,6 +164,7 @@ export function FleetSection() {
                                     <Button
                                         onClick={() => {
                                             setSelectedVehicle(null);
+                                            if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(15);
                                             document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
                                         }}
                                         className="w-full !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-bold rounded-full shadow-lg shadow-gold/20 transform hover:scale-[1.02] transition-all"

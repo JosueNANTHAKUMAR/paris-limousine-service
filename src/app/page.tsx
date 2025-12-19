@@ -7,7 +7,7 @@ import { DestinationsSection } from "@/components/features/DestinationsSection";
 import { FeaturesStrip } from "@/components/features/FeaturesStrip";
 import { NAV_LINKS, CONTACT_INFO } from "@/lib/constants";
 import { useState } from "react";
-import { Shield, Clock, Award, CreditCard, Globe, Heart, Phone, Mail, MapPin, Menu, X } from "lucide-react";
+import { Shield, Clock, Award, CreditCard, Globe, Heart, Phone, Mail, MapPin, Menu, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -20,7 +20,7 @@ export default function Home() {
   const activeSection = useActiveSection(["booking", "destinations", "services", "fleet", "packages", "about", "contact"]);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 selection:bg-gold/30 selection:text-gold scroll-smooth snap-y snap-mandatory overflow-y-scroll h-screen">
+    <main className="min-h-screen bg-slate-950 text-slate-50 selection:bg-gold/30 selection:text-gold">
       {/* Noise Texture Overlay */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay"
         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
@@ -65,7 +65,10 @@ export default function Home() {
           {/* Mobile hamburger button */}
           <button
             className="lg:hidden p-2 text-slate-300 hover:text-gold transition-colors"
-            onClick={() => setNavOpen(true)}
+            onClick={() => {
+              setNavOpen(true);
+              if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+            }}
             aria-label="Open menu"
           >
             <Menu className="h-6 w-6" />
@@ -106,7 +109,10 @@ export default function Home() {
                 </div>
                 <button
                   className="p-2 rounded-full bg-slate-900 text-slate-400 hover:text-gold hover:bg-slate-800 transition-colors"
-                  onClick={() => setNavOpen(false)}
+                  onClick={() => {
+                    setNavOpen(false);
+                    if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(5);
+                  }}
                   aria-label="Close menu"
                 >
                   <X className="h-5 w-5" />
@@ -126,7 +132,10 @@ export default function Home() {
                       <Link
                         href={link.href}
                         className="block py-3 px-4 text-base font-medium text-slate-300 hover:text-gold hover:bg-slate-900/50 rounded-lg transition-all duration-200 group"
-                        onClick={() => setNavOpen(false)}
+                        onClick={() => {
+                          setNavOpen(false);
+                          if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+                        }}
                       >
                         <span className="flex items-center justify-between">
                           {link.label}
@@ -162,7 +171,7 @@ export default function Home() {
       <DestinationsSection />
 
       {/* Services Section */}
-      <section id="services" className="py-24 bg-slate-900 relative z-10 overflow-hidden snap-start">
+      <section id="services" className="py-24 bg-slate-900 relative z-10 overflow-hidden">
         <BackgroundPattern opacity={0.02} />
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
@@ -203,7 +212,7 @@ export default function Home() {
       <HourlyPackages />
 
       {/* Why Choose Us */}
-      <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10 snap-start">
+      <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10">
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -282,13 +291,13 @@ export default function Home() {
                   <div className="p-2 bg-slate-900 rounded-lg group-hover:bg-gold group-hover:text-slate-950 transition-colors">
                     <Mail className="h-5 w-5 shrink-0" />
                   </div>
-                  <span className="font-light">{CONTACT_INFO.email}</span>
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="font-light hover:text-gold transition-colors">{CONTACT_INFO.email}</a>
                 </li>
                 <li className="flex items-center space-x-4 text-slate-400 group">
                   <div className="p-2 bg-slate-900 rounded-lg group-hover:bg-gold group-hover:text-slate-950 transition-colors">
                     <Phone className="h-5 w-5 shrink-0" />
                   </div>
-                  <span className="font-light">{CONTACT_INFO.phone}</span>
+                  <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, '')}`} className="font-light hover:text-gold transition-colors">{CONTACT_INFO.phone}</a>
                 </li>
               </ul>
             </div>
@@ -300,6 +309,20 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button (Mobile Optimized) */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.5 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+        }}
+        className="fixed bottom-6 right-6 z-[40] p-4 bg-gold text-slate-950 rounded-full shadow-2xl shadow-gold/20 lg:hidden"
+        aria-label="Back to top"
+      >
+        <ArrowRight className="h-6 w-6 -rotate-90" />
+      </motion.button>
     </main>
   );
 }

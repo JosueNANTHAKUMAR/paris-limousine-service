@@ -37,10 +37,20 @@ export function QuoteCalculator() {
             if (!formData.date) return alert("Please select a date");
             if (!formData.time) return alert("Please select a time");
         }
+
+        // Haptic feedback simulation
+        if (typeof window !== 'undefined' && window.navigator.vibrate) {
+            window.navigator.vibrate(10);
+        }
+
         if (step < 3) setStep((prev) => (prev + 1) as 1 | 2 | 3);
     };
 
     const handleBack = () => {
+        // Haptic feedback simulation
+        if (typeof window !== 'undefined' && window.navigator.vibrate) {
+            window.navigator.vibrate(5);
+        }
         if (step > 1) setStep((prev) => (prev - 1) as 1 | 2 | 3);
     };
 
@@ -70,18 +80,21 @@ export function QuoteCalculator() {
     return (
         <div className="w-full max-w-full sm:max-w-md mx-auto bg-slate-950/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10">
             {/* Header & Tabs */}
-            <div className="bg-slate-900/50 p-6 border-b border-slate-800/50">
-                <h3 className="text-2xl font-serif text-slate-50 mb-6 text-center">Book Your Transfer</h3>
+            <div className="bg-slate-900/50 p-4 sm:p-6 border-b border-slate-800/50">
+                <h3 className="text-xl sm:text-2xl font-serif text-slate-50 mb-4 sm:mb-6 text-center">Book Your Transfer</h3>
 
                 {/* Service Type Switcher */}
-                <div className="flex bg-slate-950 rounded-xl p-1 border border-slate-800 relative mb-6">
+                <div className="flex bg-slate-950 rounded-xl p-1 border border-slate-800 relative mb-4 sm:mb-6">
                     <div className="absolute inset-y-1 left-1 w-[calc(50%-4px)] !bg-[#D4AF37] rounded-lg transition-all duration-300 ease-out shadow-lg shadow-gold/20"
                         style={{ transform: serviceType === 'hourly' ? 'translateX(100%)' : 'translateX(0%)' }} />
 
                     <button
-                        onClick={() => setServiceType('distance')}
+                        onClick={() => {
+                            setServiceType('distance');
+                            if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(5);
+                        }}
                         className={clsx(
-                            "flex-1 flex items-center justify-center py-2.5 text-sm font-bold rounded-lg relative z-10 transition-colors",
+                            "flex-1 flex items-center justify-center py-2 sm:py-2.5 text-sm font-bold rounded-lg relative z-10 transition-colors",
                             serviceType === 'distance' ? "text-slate-950" : "text-slate-400 hover:text-slate-200"
                         )}
                     >
@@ -89,9 +102,12 @@ export function QuoteCalculator() {
                         Distance
                     </button>
                     <button
-                        onClick={() => setServiceType('hourly')}
+                        onClick={() => {
+                            setServiceType('hourly');
+                            if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(5);
+                        }}
                         className={clsx(
-                            "flex-1 flex items-center justify-center py-2.5 text-sm font-bold rounded-lg relative z-10 transition-colors",
+                            "flex-1 flex items-center justify-center py-2 sm:py-2.5 text-sm font-bold rounded-lg relative z-10 transition-colors",
                             serviceType === 'hourly' ? "text-slate-950" : "text-slate-400 hover:text-slate-200"
                         )}
                     >
@@ -115,7 +131,7 @@ export function QuoteCalculator() {
             </div>
 
             {/* Content Area */}
-            <div className="p-4 sm:p-6 min-h-[420px] relative">
+            <div className="p-4 sm:p-6 min-h-[380px] sm:min-h-[420px] relative">
                 <AnimatePresence mode="wait">
                     {step === 1 && (
                         <motion.div
@@ -129,9 +145,9 @@ export function QuoteCalculator() {
                             <div className="space-y-2">
                                 <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Pick Up</label>
                                 <div className="relative group">
-                                    <MapPin className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                    <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                     <select
-                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                         value={formData.departure}
                                         onChange={(e) => setFormData({ ...formData, departure: e.target.value as LocationId })}
                                     >
@@ -147,9 +163,9 @@ export function QuoteCalculator() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Drop Off</label>
                                     <div className="relative group">
-                                        <MapPin className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                        <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <select
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                             value={formData.arrival}
                                             onChange={(e) => setFormData({ ...formData, arrival: e.target.value as LocationId })}
                                         >
@@ -164,10 +180,10 @@ export function QuoteCalculator() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Duration</label>
                                     <div className="relative group">
-                                        <Timer className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                        <Timer className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <select
                                             required
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                             value={formData.duration}
                                             onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                                         >
@@ -183,11 +199,11 @@ export function QuoteCalculator() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Date</label>
                                     <div className="relative group">
-                                        <Calendar className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                        <Calendar className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <input
                                             required
                                             type="date"
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                             value={formData.date}
                                             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                         />
@@ -196,11 +212,11 @@ export function QuoteCalculator() {
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Time</label>
                                     <div className="relative group">
-                                        <Clock className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                        <Clock className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <input
                                             required
                                             type="time"
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                             value={formData.time}
                                             onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                                         />
@@ -225,9 +241,12 @@ export function QuoteCalculator() {
                                     {FLEET.map((vehicle) => (
                                         <div
                                             key={vehicle.id}
-                                            onClick={() => setFormData({ ...formData, vehicleId: vehicle.id })}
+                                            onClick={() => {
+                                                setFormData({ ...formData, vehicleId: vehicle.id });
+                                                if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+                                            }}
                                             className={clsx(
-                                                "p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
+                                                "p-3 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
                                                 formData.vehicleId === vehicle.id
                                                     ? "bg-gold/10 border-gold shadow-[0_0_15px_rgba(212,175,55,0.1)]"
                                                     : "bg-slate-900/50 border-slate-800 hover:border-slate-600 hover:bg-slate-900"
@@ -275,7 +294,7 @@ export function QuoteCalculator() {
                             <div className="space-y-3">
                                 <h4 className="text-slate-400 text-xs uppercase tracking-[0.2em]">Estimated Price</h4>
                                 <div className="relative inline-block">
-                                    <div className="text-6xl font-serif text-[#D4AF37] drop-shadow-lg">
+                                    <div className="text-5xl sm:text-6xl font-serif text-[#D4AF37] drop-shadow-lg">
                                         {serviceType === 'distance'
                                             ? (quote.price ? `${quote.price}€` : "On Request")
                                             : `${(FLEET.find(v => v.id === formData.vehicleId)?.baseRate || 0) * parseInt(formData.duration)}€`
@@ -324,7 +343,7 @@ export function QuoteCalculator() {
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center">
+            <div className="p-4 sm:p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center">
                 {step > 1 ? (
                     <Button variant="ghost" onClick={handleBack} className="text-[#D4AF37] hover:text-[#E5C55D] hover:bg-slate-900/50 rounded-full font-medium transition-colors">Back</Button>
                 ) : (
