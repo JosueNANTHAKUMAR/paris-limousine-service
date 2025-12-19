@@ -36,6 +36,7 @@ export function FleetSection() {
                                         alt={vehicle.name}
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-700 z-0"
+                                        style={{ objectPosition: (vehicle.id === 's-class' || vehicle.id === 'v-class') ? 'center 65%' : 'center' }}
                                     />
                                 </div>
                                 <div className="absolute bottom-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
