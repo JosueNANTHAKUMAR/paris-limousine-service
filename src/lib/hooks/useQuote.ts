@@ -45,16 +45,10 @@ export function useQuote({ departure, arrival, vehicleId }: QuoteRequest): Quote
             price = vehicle.fixedRates[departure as keyof FixedRates];
         }
 
-        // Case 3: Special Inter-location rates (e.g. CDG <-> Disney)
-        // The current data model mainly supports Paris <-> X. 
-        // If specific point-to-point rates exist (like CDG->Disney), they might need a more complex lookup.
-        // Based on the markdown, "Paris -> Disney: 140€". 
-        // It doesn't explicitly list "CDG -> Disney" in the simple list, 
-        // BUT the text says "Disneyland Paris private transfers from CDG Airport".
-        // However, the PRICING section only lists "Paris -> ...".
-        // So strictly following the markdown pricing table:
-        // "Paris -> CDG", "Paris -> Versailles", "Paris -> Orly", "Paris -> Disney".
-        // We will stick to what is explicitly priced.
+        // Case 3: Special Inter-location rates (e.g. CDG <-> Orly)
+        else if ((departure === 'cdg' && arrival === 'orly') || (departure === 'orly' && arrival === 'cdg')) {
+            price = vehicle.fixedRates.cdg_orly;
+        }
 
         if (price !== undefined) {
             return { price, isFixedRate: true, rateType: 'fixed' };

@@ -14,6 +14,7 @@ export interface FixedRates {
     disney?: number;
     versailles?: number;
     paris?: number; // For reverse trips or specific cases
+    cdg_orly?: number; // Specific inter-airport transfer
 }
 
 export interface Vehicle {
@@ -41,6 +42,7 @@ export const FLEET: Vehicle[] = [
             versailles: 110,
             orly: 90,
             disney: 140,
+            cdg_orly: 120,
         }
     },
     {
@@ -56,6 +58,7 @@ export const FLEET: Vehicle[] = [
             versailles: 130,
             orly: 100,
             disney: 160,
+            cdg_orly: 150,
         }
     },
     {
@@ -71,6 +74,7 @@ export const FLEET: Vehicle[] = [
             versailles: 200,
             orly: 150,
             disney: 220,
+            cdg_orly: 180,
         }
     }
 ];
