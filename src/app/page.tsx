@@ -367,9 +367,9 @@ export default function Home() {
       >
         <button
           onClick={openModal}
-          className="pointer-events-auto w-full max-w-sm py-4 bg-gradient-to-r from-[#D4AF37] to-[#F2D06B] text-slate-950 font-bold text-lg rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2 border border-white/20"
+          className="pointer-events-auto w-full max-w-[180px] py-3 bg-[#D4AF37] text-slate-950 font-bold text-base rounded-full shadow-[0_10px_30px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2 border border-white/30 active:scale-95 transition-all"
         >
-          Book Now <ArrowRight className="h-5 w-5" />
+          Book Now <ArrowRight className="h-4 w-4" />
         </button>
       </motion.div>
 
