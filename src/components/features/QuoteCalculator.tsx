@@ -83,11 +83,16 @@ export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
 
     return (
         <div className={clsx(
-            "w-full max-w-full sm:max-w-md mx-auto overflow-hidden",
-            !isModal && "bg-slate-950/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl shadow-2xl ring-1 ring-white/10"
+            "w-full max-w-full sm:max-w-md mx-auto",
+            isModal
+                ? "h-full flex flex-col"
+                : "overflow-hidden bg-slate-950/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl shadow-2xl ring-1 ring-white/10"
         )}>
             {/* Header & Tabs */}
-            <div className="bg-slate-900/50 p-4 sm:p-6 border-b border-slate-800/50">
+            <div className={clsx(
+                "bg-slate-900/50 p-4 sm:p-6 border-b border-slate-800/50",
+                isModal && "shrink-0"
+            )}>
                 <h3 className="text-xl sm:text-2xl font-serif text-slate-50 mb-4 sm:mb-6 text-center">Book Your Transfer</h3>
 
                 {/* Service Type Switcher */}
@@ -138,7 +143,12 @@ export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
             </div>
 
             {/* Content Area */}
-            <div className="p-4 sm:p-6 min-h-[380px] sm:min-h-[420px] relative">
+            <div className={clsx(
+                "relative",
+                isModal
+                    ? "flex-1 overflow-y-auto custom-scrollbar p-4"
+                    : "p-4 sm:p-6 min-h-[380px] sm:min-h-[420px]"
+            )}>
                 <AnimatePresence mode="wait">
                     {step === 1 && (
                         <motion.div
@@ -350,7 +360,10 @@ export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center">
+            <div className={clsx(
+                "p-4 sm:p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center",
+                isModal && "shrink-0 pb-8" // Add safe area padding for mobile
+            )}>
                 {step > 1 ? (
                     <Button variant="ghost" onClick={handleBack} className="text-[#D4AF37] hover:text-[#E5C55D] hover:bg-slate-900/50 rounded-full font-medium transition-colors">Back</Button>
                 ) : (

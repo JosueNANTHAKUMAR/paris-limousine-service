@@ -105,8 +105,8 @@ export function HeroSection() {
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto p-4 pb-12 custom-scrollbar">
-                                <div className="max-w-md mx-auto">
+                            <div className="flex-1 overflow-hidden relative bg-slate-900">
+                                <div className="h-full max-w-md mx-auto">
                                     <QuoteCalculator isModal={true} />
                                 </div>
                             </div>
