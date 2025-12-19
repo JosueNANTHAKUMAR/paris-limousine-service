@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Clock, Car, ChevronRight, CheckCircle, ArrowRight, Timer, Navigation } from "lucide-react";
 import { LOCATIONS, FLEET, LocationId } from "@/lib/constants";
@@ -272,15 +271,10 @@ export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
                                         >
                                             <div className="flex items-center space-x-4 relative z-10">
                                                 <div className={clsx(
-                                                    "relative w-20 h-12 rounded-lg overflow-hidden transition-all duration-300 bg-slate-950/50 border",
-                                                    formData.vehicleId === vehicle.id ? "border-gold/50" : "border-slate-800"
+                                                    "p-3 rounded-lg transition-colors",
+                                                    formData.vehicleId === vehicle.id ? "bg-gold text-slate-950" : "bg-slate-950 text-slate-400"
                                                 )}>
-                                                    <Image
-                                                        src={vehicle.image}
-                                                        alt={vehicle.name}
-                                                        fill
-                                                        className="object-contain p-1"
-                                                    />
+                                                    {vehicle.category === 'Van' ? <Car className="h-6 w-6" /> : <Car className="h-6 w-6" />}
                                                 </div>
                                                 <div>
                                                     <h4 className={clsx("font-serif font-medium text-lg", formData.vehicleId === vehicle.id ? "text-gold" : "text-slate-50")}>
