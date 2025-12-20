@@ -44,15 +44,20 @@ const PACKAGES = [
     }
 ];
 
-export function HourlyPackages() {
+interface HourlyPackagesProps {
+    onBookPackage?: (duration: string) => void;
+}
+
+export function HourlyPackages({ onBookPackage }: HourlyPackagesProps) {
     const [selectedPackage, setSelectedPackage] = useState<typeof PACKAGES[0] | null>(null);
 
     const handleBookPackage = () => {
-        setSelectedPackage(null);
-        const element = document.getElementById('booking');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+        if (selectedPackage && onBookPackage) {
+            // Extract just the number from "4 hours"
+            const duration = selectedPackage.duration.split(' ')[0];
+            onBookPackage(duration);
         }
+        setSelectedPackage(null);
     };
 
     return (

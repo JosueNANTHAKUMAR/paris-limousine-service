@@ -13,16 +13,18 @@ type ServiceType = 'distance' | 'hourly';
 
 interface QuoteCalculatorProps {
     isModal?: boolean;
+    initialServiceType?: ServiceType;
+    initialDuration?: string;
 }
 
-export function QuoteCalculator({ isModal = false }: QuoteCalculatorProps) {
+export function QuoteCalculator({ isModal = false, initialServiceType = 'distance', initialDuration = "1" }: QuoteCalculatorProps) {
     const [step, setStep] = useState<1 | 2 | 3>(1);
-    const [serviceType, setServiceType] = useState<ServiceType>('distance');
+    const [serviceType, setServiceType] = useState<ServiceType>(initialServiceType);
 
     const [formData, setFormData] = useState({
         departure: "" as LocationId | "",
         arrival: "" as LocationId | "",
-        duration: "1",
+        duration: initialDuration,
         date: "",
         time: "",
         vehicleId: FLEET[0].id,

@@ -21,9 +21,17 @@ import { QuoteCalculator } from "@/components/features/QuoteCalculator";
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookingInitialState, setBookingInitialState] = useState<{ serviceType: 'distance' | 'hourly', duration: string } | undefined>(undefined);
   const activeSection = useActiveSection(["booking", "destinations", "services", "fleet", "packages", "about", "contact"]);
 
   const openModal = () => {
+    setBookingInitialState(undefined);
+    setIsModalOpen(true);
+    if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+  };
+
+  const handlePackageBooking = (duration: string) => {
+    setBookingInitialState({ serviceType: 'hourly', duration });
     setIsModalOpen(true);
     if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
   };
@@ -217,7 +225,7 @@ export default function Home() {
 
       <FleetSection />
 
-      <HourlyPackages />
+      <HourlyPackages onBookPackage={handlePackageBooking} />
 
       {/* Why Choose Us */}
       <section id="about" className="py-24 bg-slate-900 relative overflow-hidden z-10">
@@ -350,7 +358,11 @@ export default function Home() {
 
               <div className="flex-1 overflow-hidden relative bg-slate-900">
                 <div className="h-full max-w-md mx-auto">
-                  <QuoteCalculator isModal={true} />
+                  <QuoteCalculator
+                    isModal={true}
+                    initialServiceType={bookingInitialState?.serviceType}
+                    initialDuration={bookingInitialState?.duration}
+                  />
                 </div>
               </div>
             </motion.div>
