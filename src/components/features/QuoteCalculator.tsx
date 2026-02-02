@@ -97,7 +97,6 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
             from: formData.departure,
             to: formData.arrival,
             vehicle: formData.vehicleId,
-            vehicle: formData.vehicleId,
             pickupAddress: formData.pickupAddress,
             flightNumber: formData.flightNumber,
             dropoffAddress: formData.dropoffAddress,
