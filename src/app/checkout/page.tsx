@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import { ArrowLeft, CheckCircle, CreditCard, Lock } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import { FLEET, LOCATIONS } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,11 +21,18 @@ function CheckoutContent() {
     const date = searchParams.get("date") || "";
     const time = searchParams.get("time") || "";
     const duration = searchParams.get("duration") || "4";
+
     const price = searchParams.get("price") || "0";
+    const passengers = searchParams.get("passengers") || "1";
 
     // Resolve labels
-    const departureLabel = LOCATIONS.find(l => l.id === departureId)?.label || departureId;
-    const arrivalLabel = LOCATIONS.find(l => l.id === arrivalId)?.label || arrivalId;
+    const pickupAddress = searchParams.get("pickupAddress") || "";
+    const dropoffAddress = searchParams.get("dropoffAddress") || "";
+    const flightNumber = searchParams.get("flightNumber") || "";
+
+    // Resolve labels
+    const departureLabel = (LOCATIONS.find(l => l.id === departureId)?.label || departureId) + (pickupAddress ? ` (${pickupAddress})` : "") + (flightNumber ? ` [Flight: ${flightNumber}]` : "");
+    const arrivalLabel = (LOCATIONS.find(l => l.id === arrivalId)?.label || arrivalId) + (dropoffAddress ? ` (${dropoffAddress})` : "");
     const vehicle = FLEET.find(v => v.id === vehicleId);
 
     const [formData, setFormData] = useState({
@@ -55,7 +62,9 @@ function CheckoutContent() {
                         date,
                         time,
                         duration,
+
                         price,
+                        passengers,
                     },
                 }),
             });
@@ -186,11 +195,16 @@ function CheckoutContent() {
                                         />
                                     </div>
                                     <h4 className="text-lg font-medium text-gold">{vehicle.name}</h4>
-                                    <p className="text-sm text-slate-400">{vehicle.category} • {vehicle.capacity.pax} Pax</p>
+
+                                    <p className="text-sm text-slate-400">{vehicle.category} • {vehicle.capacity.pax} Pax Max</p>
                                 </div>
                             )}
 
                             <div className="space-y-4 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Passengers</span>
+                                    <span className="text-slate-50 font-medium">{passengers}</span>
+                                </div>
                                 <div className="flex justify-between">
                                     <span className="text-slate-400">Date</span>
                                     <span className="text-slate-50 font-medium">{date}</span>

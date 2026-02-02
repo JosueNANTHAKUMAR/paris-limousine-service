@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FLEET, Vehicle } from "@/lib/constants";
-import { Users, Briefcase, X, Check, ArrowRight } from "lucide-react";
+import { Users, Briefcase, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";

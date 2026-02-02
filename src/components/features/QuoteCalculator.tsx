@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Calendar, Clock, Car, ChevronRight, CheckCircle, ArrowRight, Timer, Navigation } from "lucide-react";
+import { MapPin, Calendar, Clock, Car, ChevronRight, CheckCircle, ArrowRight, Timer, Navigation, Plane } from "lucide-react";
 import { LOCATIONS, FLEET, LocationId } from "@/lib/constants";
 import { useQuote } from "@/lib/hooks/useQuote";
 import { Button } from "@/components/ui/Button";
 import { clsx } from "clsx";
+import { AddressAutocomplete } from "@/components/ui/AddressAutocomplete";
 
 type ServiceType = 'distance' | 'hourly';
 
@@ -24,10 +25,15 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
     const [formData, setFormData] = useState({
         departure: "" as LocationId | "",
         arrival: "" as LocationId | "",
+        arrival: "" as LocationId | "",
+        pickupAddress: "",
+        flightNumber: "",
+        dropoffAddress: "",
         duration: initialDuration || "3",
         date: "",
         time: "",
         vehicleId: FLEET[0].id,
+        passengers: 1,
     });
 
     // Update state when props change (e.g. when clicking "Book Plan" from parent)
@@ -35,7 +41,12 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         setServiceType(initialServiceType);
         setFormData(prev => ({
             ...prev,
-            duration: initialDuration
+            duration: initialDuration,
+            pickupAddress: "",
+            flightNumber: "",
+            flightNumber: "",
+            dropoffAddress: "",
+            passengers: 1
         }));
     }, [initialServiceType, initialDuration]);
 
@@ -44,6 +55,17 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         arrival: formData.arrival,
         vehicleId: formData.vehicleId,
     });
+
+    // Get currently selected vehicle to determine capacity
+    const selectedVehicle = FLEET.find(v => v.id === formData.vehicleId) || FLEET[0];
+    const maxPassengers = selectedVehicle.capacity.pax;
+
+    // Clamp passenger count when vehicle changes
+    useEffect(() => {
+        if (formData.passengers > maxPassengers) {
+            setFormData(prev => ({ ...prev, passengers: maxPassengers }));
+        }
+    }, [formData.vehicleId, maxPassengers]);
 
     const handleNext = () => {
         if (step === 1) {
@@ -77,9 +99,14 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
             from: formData.departure,
             to: formData.arrival,
             vehicle: formData.vehicleId,
+            vehicle: formData.vehicleId,
+            pickupAddress: formData.pickupAddress,
+            flightNumber: formData.flightNumber,
+            dropoffAddress: formData.dropoffAddress,
             date: formData.date,
             time: formData.time,
             duration: formData.duration,
+            passengers: formData.passengers.toString(),
             price: quote.price ? quote.price.toString() : ((FLEET.find(v => v.id === formData.vehicleId)?.baseRate || 0) * parseInt(formData.duration)) + "",
         });
         router.push(`/checkout?${params.toString()}`);
@@ -185,40 +212,79 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                         ))}
                                     </select>
                                 </div>
+                                {!['cdg', 'orly', 'le_bourget'].includes(formData.departure) && (
+                                    <div className="mt-2">
+                                        <AddressAutocomplete
+                                            icon={<MapPin className="h-5 w-5 text-slate-500 transition-colors" />}
+                                            placeholder="Address or Hotel Name"
+                                            value={formData.pickupAddress}
+                                            onChange={(value) => setFormData({ ...formData, pickupAddress: value })}
+                                        />
+                                    </div>
+                                )}
                             </div>
 
-                            {serviceType === 'distance' ? (
-                                <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Drop Off</label>
-                                    <div className="relative group">
-                                        <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
-                                        <select
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
-                                            value={formData.arrival}
-                                            onChange={(e) => setFormData({ ...formData, arrival: e.target.value as LocationId })}
-                                        >
-                                            <option value="" className="bg-slate-900 text-slate-50">Select Drop Off Location</option>
-                                            {LOCATIONS.map((loc) => (
-                                                <option key={loc.id} value={loc.id} className="bg-slate-900 text-slate-50">{loc.label}</option>
-                                            ))}
-                                        </select>
+                            {
+                                serviceType === 'distance' ? (
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Drop Off</label>
+                                        <div className="relative group">
+                                            <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                            <select
+                                                className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
+                                                value={formData.arrival}
+                                                onChange={(e) => setFormData({ ...formData, arrival: e.target.value as LocationId })}
+                                            >
+                                                <option value="" className="bg-slate-900 text-slate-50">Select Drop Off Location</option>
+                                                {LOCATIONS.map((loc) => (
+                                                    <option key={loc.id} value={loc.id} className="bg-slate-900 text-slate-50">{loc.label}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        {!['cdg', 'orly', 'le_bourget'].includes(formData.arrival) && (
+                                            <div className="mt-2">
+                                                <AddressAutocomplete
+                                                    icon={<MapPin className="h-5 w-5 text-slate-500 transition-colors" />}
+                                                    placeholder="Address or Hotel Name"
+                                                    value={formData.dropoffAddress}
+                                                    onChange={(value) => setFormData({ ...formData, dropoffAddress: value })}
+                                                />
+                                            </div>
+                                        )}
+                                    </div >
+                                ) : (
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Duration</label>
+                                        <div className="relative group">
+                                            <Timer className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                            <select
+                                                required
+                                                className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
+                                                value={formData.duration}
+                                                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                                            >
+                                                {[3, 4, 5, 6, 7, 8].map((h) => (
+                                                    <option key={h} value={h} className="bg-slate-900 text-slate-50">{h} Hours</option>
+                                                ))}
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
+                                )
+                            }
+
+                            {/* Flight Number Field (Condition: Airport Pickup OR Dropoff) */}
+                            {(['cdg', 'orly', 'le_bourget'].includes(formData.departure) || ['cdg', 'orly', 'le_bourget'].includes(formData.arrival)) && (
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Duration</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Flight Number</label>
                                     <div className="relative group">
-                                        <Timer className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
-                                        <select
-                                            required
-                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none appearance-none transition-all hover:bg-slate-900 text-sm sm:text-base"
-                                            value={formData.duration}
-                                            onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                                        >
-                                            {[3, 4, 5, 6, 7, 8].map((h) => (
-                                                <option key={h} value={h} className="bg-slate-900 text-slate-50">{h} Hours</option>
-                                            ))}
-                                        </select>
+                                        <Plane className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
+                                        <input
+                                            type="text"
+                                            placeholder="Flight Number"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900 text-sm sm:text-base"
+                                            value={formData.flightNumber}
+                                            onChange={(e) => setFormData({ ...formData, flightNumber: e.target.value })}
+                                        />
                                     </div>
                                 </div>
                             )}
@@ -251,149 +317,191 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                     </div>
                                 </div>
                             </div>
-                        </motion.div>
-                    )}
+                        </motion.div >
+                    )
+                    }
 
-                    {step === 2 && (
-                        <motion.div
-                            key="step2"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className="space-y-4"
-                        >
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Select Vehicle</label>
-                                <div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
-                                    {FLEET.map((vehicle) => (
-                                        <div
-                                            key={vehicle.id}
-                                            onClick={() => {
-                                                setFormData({ ...formData, vehicleId: vehicle.id });
-                                                if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
-                                            }}
+                    {
+                        step === 2 && (
+                            <motion.div
+                                key="step2"
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="space-y-4"
+                            >
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Passengers</label>
+                                    <div className="flex items-center space-x-4 bg-slate-900/50 border border-slate-800 rounded-xl p-2">
+                                        <button
+                                            onClick={() => setFormData(prev => ({ ...prev, passengers: Math.max(1, prev.passengers - 1) }))}
                                             className={clsx(
-                                                "p-3 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
-                                                formData.vehicleId === vehicle.id
-                                                    ? "bg-gold/10 border-gold shadow-[0_0_15px_rgba(212,175,55,0.1)]"
-                                                    : "bg-slate-900/50 border-slate-800 hover:border-slate-600 hover:bg-slate-900"
+                                                "w-10 h-10 flex items-center justify-center rounded-lg transition-colors",
+                                                formData.passengers <= 1
+                                                    ? "bg-slate-800/50 text-slate-600 cursor-not-allowed"
+                                                    : "bg-slate-800 text-slate-50 hover:bg-slate-700"
                                             )}
+                                            disabled={formData.passengers <= 1}
                                         >
-                                            <div className="flex items-center space-x-4 relative z-10">
-                                                <div className={clsx(
-                                                    "p-3 rounded-lg transition-colors",
-                                                    formData.vehicleId === vehicle.id ? "bg-gold text-slate-950" : "bg-slate-950 text-slate-400"
-                                                )}>
-                                                    {vehicle.category === 'Van' ? <Car className="h-6 w-6" /> : <Car className="h-6 w-6" />}
-                                                </div>
-                                                <div>
-                                                    <h4 className={clsx("font-serif font-medium text-lg", formData.vehicleId === vehicle.id ? "text-gold" : "text-slate-50")}>
-                                                        {vehicle.name}
-                                                    </h4>
-                                                    <p className="text-xs text-slate-400 mt-0.5">{vehicle.category} • {vehicle.capacity.pax} Pax</p>
-                                                </div>
-                                            </div>
-                                            {formData.vehicleId === vehicle.id && (
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    animate={{ scale: 1 }}
-                                                    className="relative z-10"
-                                                >
-                                                    <CheckCircle className="h-6 w-6 text-gold" />
-                                                </motion.div>
+                                            -
+                                        </button>
+                                        <div className="flex-1 text-center font-serif text-xl text-slate-50">
+                                            {formData.passengers} <span className="text-sm text-slate-400 font-sans">Pax</span>
+                                        </div>
+                                        <button
+                                            onClick={() => setFormData(prev => ({ ...prev, passengers: Math.min(maxPassengers, prev.passengers + 1) }))}
+                                            className={clsx(
+                                                "w-10 h-10 flex items-center justify-center rounded-lg transition-colors",
+                                                formData.passengers >= maxPassengers
+                                                    ? "bg-slate-800/50 text-slate-600 cursor-not-allowed"
+                                                    : "bg-slate-800 text-slate-50 hover:bg-slate-700"
                                             )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {step === 3 && (
-                        <motion.div
-                            key="step3"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className="space-y-8 text-center py-4"
-                        >
-                            <div className="space-y-3">
-                                <h4 className="text-slate-400 text-xs uppercase tracking-[0.2em]">Estimated Price</h4>
-                                <div className="relative inline-block">
-                                    <div className="text-5xl sm:text-6xl font-serif text-[#D4AF37] drop-shadow-lg">
-                                        {serviceType === 'distance'
-                                            ? (quote.price ? `${quote.price}€` : "On Request")
-                                            : `${(FLEET.find(v => v.id === formData.vehicleId)?.baseRate || 0) * parseInt(formData.duration)}€`
-                                        }
+                                            disabled={formData.passengers >= maxPassengers}
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                 </div>
-                                <p className="text-sm text-slate-500 font-medium">
-                                    {serviceType === 'distance'
-                                        ? (quote.isFixedRate ? "Fixed Rate • All Inclusive" : "Custom Quote Required")
-                                        : `${formData.duration} Hours • Hourly Rate`
-                                    }
-                                </p>
-                            </div>
 
-                            <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 text-left space-y-4 text-sm shadow-inner">
-                                <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
-                                    <span className="text-slate-400">Service</span>
-                                    <span className="text-slate-50 font-medium capitalize">{serviceType}</span>
-                                </div>
-                                {serviceType === 'distance' ? (
-                                    <>
-                                        <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
-                                            <span className="text-slate-400">Route</span>
-                                            <div className="text-right">
-                                                <div className="text-slate-50 font-medium">{LOCATIONS.find(l => l.id === formData.departure)?.label || "..."}</div>
-                                                <div className="text-xs text-slate-500">to</div>
-                                                <div className="text-slate-50 font-medium">{LOCATIONS.find(l => l.id === formData.arrival)?.label || "..."}</div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Select Vehicle</label>
+                                    <div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+                                        {FLEET.map((vehicle) => (
+                                            <div
+                                                key={vehicle.id}
+                                                onClick={() => {
+                                                    setFormData({ ...formData, vehicleId: vehicle.id });
+                                                    if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
+                                                }}
+                                                className={clsx(
+                                                    "p-3 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
+                                                    formData.vehicleId === vehicle.id
+                                                        ? "bg-gold/10 border-gold shadow-[0_0_15px_rgba(212,175,55,0.1)]"
+                                                        : "bg-slate-900/50 border-slate-800 hover:border-slate-600 hover:bg-slate-900"
+                                                )}
+                                            >
+                                                <div className="flex items-center space-x-4 relative z-10">
+                                                    <div className={clsx(
+                                                        "p-3 rounded-lg transition-colors",
+                                                        formData.vehicleId === vehicle.id ? "bg-gold text-slate-950" : "bg-slate-950 text-slate-400"
+                                                    )}>
+                                                        {vehicle.category === 'Van' ? <Car className="h-6 w-6" /> : <Car className="h-6 w-6" />}
+                                                    </div>
+                                                    <div>
+                                                        <h4 className={clsx("font-serif font-medium text-lg", formData.vehicleId === vehicle.id ? "text-gold" : "text-slate-50")}>
+                                                            {vehicle.name}
+                                                        </h4>
+                                                        <p className="text-xs text-slate-400 mt-0.5">{vehicle.category} • {vehicle.capacity.pax} Pax</p>
+                                                    </div>
+                                                </div>
+                                                {formData.vehicleId === vehicle.id && (
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        className="relative z-10"
+                                                    >
+                                                        <CheckCircle className="h-6 w-6 text-gold" />
+                                                    </motion.div>
+                                                )}
                                             </div>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
-                                        <span className="text-slate-400">Duration</span>
-                                        <span className="text-slate-50 font-medium">{formData.duration} Hours</span>
+                                        ))}
                                     </div>
-                                )}
-
-                                <div className="flex justify-between items-center pt-1">
-                                    <span className="text-slate-400">Vehicle</span>
-                                    <span className="text-gold font-medium">{FLEET.find(v => v.id === formData.vehicleId)?.name}</span>
                                 </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+                            </motion.div>
+                        )
+                    }
+
+                    {
+                        step === 3 && (
+                            <motion.div
+                                key="step3"
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="space-y-8 text-center py-4"
+                            >
+                                <div className="space-y-3">
+                                    <h4 className="text-slate-400 text-xs uppercase tracking-[0.2em]">Estimated Price</h4>
+                                    <div className="relative inline-block">
+                                        <div className="text-5xl sm:text-6xl font-serif text-[#D4AF37] drop-shadow-lg">
+                                            {serviceType === 'distance'
+                                                ? (quote.price ? `${quote.price}€` : "On Request")
+                                                : `${(FLEET.find(v => v.id === formData.vehicleId)?.baseRate || 0) * parseInt(formData.duration)}€`
+                                            }
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-slate-500 font-medium">
+                                        {serviceType === 'distance'
+                                            ? (quote.isFixedRate ? "Fixed Rate • All Inclusive" : "Custom Quote Required")
+                                            : `${formData.duration} Hours • Hourly Rate`
+                                        }
+                                    </p>
+                                </div>
+
+                                <div className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 text-left space-y-4 text-sm shadow-inner">
+                                    <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
+                                        <span className="text-slate-400">Service</span>
+                                        <span className="text-slate-50 font-medium capitalize">{serviceType}</span>
+                                    </div>
+                                    {serviceType === 'distance' ? (
+                                        <>
+                                            <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
+                                                <span className="text-slate-400">Route</span>
+                                                <div className="text-right">
+                                                    <div className="text-slate-50 font-medium">{LOCATIONS.find(l => l.id === formData.departure)?.label || "..."}</div>
+                                                    <div className="text-xs text-slate-500">to</div>
+                                                    <div className="text-slate-50 font-medium">{LOCATIONS.find(l => l.id === formData.arrival)?.label || "..."}</div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="flex justify-between items-center border-b border-slate-800/50 pb-3">
+                                            <span className="text-slate-400">Duration</span>
+                                            <span className="text-slate-50 font-medium">{formData.duration} Hours</span>
+                                        </div>
+                                    )}
+
+                                    <div className="flex justify-between items-center pt-1">
+                                        <span className="text-slate-400">Vehicle</span>
+                                        <span className="text-gold font-medium">{FLEET.find(v => v.id === formData.vehicleId)?.name}</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )
+                    }
+                </AnimatePresence >
+            </div >
 
             {/* Footer */}
-            <div className={clsx(
-                "p-4 sm:p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center",
-                isModal && "shrink-0 pb-8" // Add safe area padding for mobile
-            )}>
+            < div className={
+                clsx(
+                    "p-4 sm:p-6 border-t border-slate-800/50 bg-slate-900/30 flex justify-between items-center",
+                    isModal && "shrink-0 pb-8" // Add safe area padding for mobile
+                )}>
                 {step > 1 ? (
                     <Button variant="ghost" onClick={handleBack} className="text-[#D4AF37] hover:text-[#E5C55D] hover:bg-slate-900/50 rounded-full font-medium transition-colors">Back</Button>
                 ) : (
                     <div />
                 )}
 
-                {step < 3 ? (
-                    <Button onClick={handleNext} className="w-36 !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-bold shadow-lg shadow-gold/20 transform hover:scale-[1.02] transition-all rounded-full">
-                        Next <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={handleBookNow}
-                        className="w-full !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-bold shadow-xl shadow-gold/20 transform hover:scale-[1.02] transition-all rounded-full"
-                    >
-                        Book Now <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                )}
-            </div>
-        </div>
+                {
+                    step < 3 ? (
+                        <Button onClick={handleNext} className="w-36 !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-bold shadow-lg shadow-gold/20 transform hover:scale-[1.02] transition-all rounded-full">
+                            Next <ChevronRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={handleBookNow}
+                            className="w-full !bg-[#D4AF37] hover:!bg-[#E5C55D] !text-black font-bold shadow-xl shadow-gold/20 transform hover:scale-[1.02] transition-all rounded-full"
+                        >
+                            Book Now <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    )
+                }
+            </div >
+        </div >
     );
 }

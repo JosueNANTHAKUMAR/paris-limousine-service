@@ -1,7 +1,8 @@
 export const LOCATIONS = [
-    { id: 'paris', label: 'Paris (Centre)' },
+    { id: 'paris', label: 'Paris' },
     { id: 'cdg', label: 'CDG Airport' },
     { id: 'orly', label: 'Orly Airport' },
+    { id: 'le_bourget', label: 'Le Bourget Airport' },
     { id: 'disney', label: 'Disneyland Paris' },
     { id: 'versailles', label: 'Versailles' }
 ] as const;
@@ -14,6 +15,7 @@ export interface FixedRates {
     disney?: number;
     versailles?: number;
     paris?: number; // For reverse trips or specific cases
+    le_bourget?: number;
     cdg_orly?: number; // Specific inter-airport transfer
 }
 
@@ -41,6 +43,7 @@ export const FLEET: Vehicle[] = [
             cdg: 110,
             versailles: 110,
             orly: 90,
+            le_bourget: 110,
             disney: 140,
             cdg_orly: 120,
         }
@@ -57,6 +60,7 @@ export const FLEET: Vehicle[] = [
             cdg: 130,
             versailles: 130,
             orly: 100,
+            le_bourget: 130,
             disney: 160,
             cdg_orly: 150,
         }
@@ -73,6 +77,7 @@ export const FLEET: Vehicle[] = [
             cdg: 200,
             versailles: 200,
             orly: 150,
+            le_bourget: 200,
             disney: 220,
             cdg_orly: 180,
         }

@@ -61,11 +61,11 @@ export default function Home() {
         <div className="container mx-auto px-6 h-24 flex items-center justify-between">
           <div className="flex items-center">
             <Image
-              src="/images/logo-removebg-trimmed.png"
+              src="/images/logoo.png"
               alt="Paris Limousine Service"
-              width={300}
-              height={90}
-              className="h-[90px] w-auto object-contain"
+              width={350}
+              height={120}
+              className="h-[120px] w-auto object-contain"
               priority
             />
           </div>
