@@ -25,7 +25,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
     const [formData, setFormData] = useState({
         departure: "" as LocationId | "",
         arrival: "" as LocationId | "",
-        arrival: "" as LocationId | "",
+
         pickupAddress: "",
         flightNumber: "",
         dropoffAddress: "",
