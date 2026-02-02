@@ -32,7 +32,15 @@ export default function Home() {
 
   const handlePackageBooking = (duration: string) => {
     setBookingInitialState({ serviceType: 'hourly', duration });
-    setIsModalOpen(true);
+
+    // Check if we are on mobile (less than 1024px)
+    if (window.innerWidth < 1024) {
+      setIsModalOpen(true);
+    } else {
+      // On desktop, scroll to the booking section at the top
+      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
     if (typeof window !== 'undefined' && window.navigator.vibrate) window.navigator.vibrate(10);
   };
 
@@ -181,7 +189,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <HeroSection onOpenModal={openModal} />
+      <HeroSection onOpenModal={openModal} initialBookingState={bookingInitialState} />
 
       <FeaturesStrip />
 

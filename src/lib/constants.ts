@@ -90,8 +90,8 @@ export const NAV_LINKS = [
 ];
 
 export const CONTACT_INFO = {
-    address: "329 Queensberry Street, North Melbourne VIC 3051, Australia", // Placeholder from site
-    email: "support@drive.com", // Placeholder from site
-    phone: "+99 (0) 123 456 78 90", // Placeholder from site
+    address: "92 Avenue Henri Martin, 75016 Paris",
+    email: "parislimousinetransfer@gmail.com",
+    phone: "+33 6 95 83 35 71",
     copyright: "© Copyright 2012 - 2025 • Paris Taxi • All Rights Reserved"
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Clock, Car, ChevronRight, CheckCircle, ArrowRight, Timer, Navigation } from "lucide-react";
@@ -17,18 +17,27 @@ interface QuoteCalculatorProps {
     initialDuration?: string;
 }
 
-export function QuoteCalculator({ isModal = false, initialServiceType = 'distance', initialDuration = "1" }: QuoteCalculatorProps) {
+export function QuoteCalculator({ isModal = false, initialServiceType = 'distance', initialDuration = "3" }: QuoteCalculatorProps) {
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [serviceType, setServiceType] = useState<ServiceType>(initialServiceType);
 
     const [formData, setFormData] = useState({
         departure: "" as LocationId | "",
         arrival: "" as LocationId | "",
-        duration: initialDuration,
+        duration: initialDuration || "3",
         date: "",
         time: "",
         vehicleId: FLEET[0].id,
     });
+
+    // Update state when props change (e.g. when clicking "Book Plan" from parent)
+    useEffect(() => {
+        setServiceType(initialServiceType);
+        setFormData(prev => ({
+            ...prev,
+            duration: initialDuration
+        }));
+    }, [initialServiceType, initialDuration]);
 
     const quote = useQuote({
         departure: formData.departure,
@@ -206,7 +215,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                             value={formData.duration}
                                             onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                                         >
-                                            {[1, 2, 3, 4, 5, 6, 7, 8].map((h) => (
+                                            {[3, 4, 5, 6, 7, 8].map((h) => (
                                                 <option key={h} value={h} className="bg-slate-900 text-slate-50">{h} Hours</option>
                                             ))}
                                         </select>

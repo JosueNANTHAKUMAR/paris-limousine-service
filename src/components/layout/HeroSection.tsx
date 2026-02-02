@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/Button";
 
 interface HeroSectionProps {
     onOpenModal: () => void;
+    initialBookingState?: { serviceType: 'distance' | 'hourly', duration: string };
 }
 
-export function HeroSection({ onOpenModal }: HeroSectionProps) {
+export function HeroSection({ onOpenModal, initialBookingState }: HeroSectionProps) {
     return (
         <section id="booking" className="relative min-h-screen flex items-center justify-center pt-24 pb-20 overflow-hidden">
             {/* Background Image & Overlay */}
@@ -65,7 +66,10 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
 
                 {/* Desktop Calculator (Hidden on Mobile) */}
                 <div className="hidden lg:flex justify-center lg:justify-end">
-                    <QuoteCalculator />
+                    <QuoteCalculator
+                        initialServiceType={initialBookingState?.serviceType}
+                        initialDuration={initialBookingState?.duration}
+                    />
                 </div>
             </div>
         </section>

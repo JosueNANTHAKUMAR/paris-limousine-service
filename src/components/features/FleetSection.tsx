@@ -157,7 +157,7 @@ export function FleetSection() {
                                     <div className="bg-slate-800/50 rounded-xl p-4 flex justify-between items-center mb-6">
                                         <div>
                                             <div className="text-slate-50 font-medium">Hourly Hire</div>
-                                            <div className="text-xs text-slate-500">As directed (Min 1h)</div>
+                                            <div className="text-xs text-slate-500">As directed (Min 3h)</div>
                                         </div>
                                         <div className="text-xl font-serif text-gold">{selectedVehicle.baseRate}€<span className="text-sm font-sans text-slate-500">/h</span></div>
                                     </div>
