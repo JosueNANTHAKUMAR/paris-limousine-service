@@ -18,6 +18,22 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Paris Limousine Service | Luxury Chauffeur in Paris",
   description: "Premium chauffeur service in Paris. Airport transfers (CDG, Orly), Disneyland Paris, and hourly hire. Book your Mercedes E-Class, V-Class, or S-Class today.",
+  icons: {
+    icon: "/logo_og.png",
+    apple: "/logo_og.png",
+  },
+  openGraph: {
+    title: "Paris Limousine Service",
+    description: "Premium chauffeur service in Paris",
+    images: [
+      {
+        url: "/logo_og.png",
+        width: 1200,
+        height: 630,
+        alt: "Paris Limousine Service Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
