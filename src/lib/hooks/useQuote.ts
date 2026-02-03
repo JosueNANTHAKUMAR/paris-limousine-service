@@ -46,8 +46,25 @@ export function useQuote({ departure, arrival, vehicleId }: QuoteRequest): Quote
         }
 
         // Case 3: Special Inter-location rates (e.g. CDG <-> Orly)
-        else if ((departure === 'cdg' && arrival === 'orly') || (departure === 'orly' && arrival === 'cdg')) {
-            price = vehicle.fixedRates.cdg_orly;
+        // We define a helper to check bidirectional keys
+        const checkRate = (loc1: string, loc2: string, rateKey: keyof FixedRates) => {
+            return (departure === loc1 && arrival === loc2) || (departure === loc2 && arrival === loc1) ? vehicle.fixedRates[rateKey] : undefined;
+        };
+
+        const interLocationPrice =
+            checkRate('cdg', 'orly', 'cdg_orly') ||
+            checkRate('cdg', 'le_bourget', 'cdg_bourget') ||
+            checkRate('cdg', 'disney', 'cdg_disney') ||
+            checkRate('cdg', 'versailles', 'cdg_versailles') ||
+            checkRate('orly', 'le_bourget', 'orly_bourget') ||
+            checkRate('orly', 'disney', 'orly_disney') ||
+            checkRate('orly', 'versailles', 'orly_versailles') ||
+            checkRate('le_bourget', 'disney', 'bourget_disney') ||
+            checkRate('le_bourget', 'versailles', 'bourget_versailles') ||
+            checkRate('disney', 'versailles', 'disney_versailles');
+
+        if (interLocationPrice !== undefined) {
+            price = interLocationPrice;
         }
 
         if (price !== undefined) {

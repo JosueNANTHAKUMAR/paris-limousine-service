@@ -17,6 +17,15 @@ export interface FixedRates {
     paris?: number; // For reverse trips or specific cases
     le_bourget?: number;
     cdg_orly?: number; // Specific inter-airport transfer
+    cdg_bourget?: number;
+    cdg_disney?: number;
+    cdg_versailles?: number;
+    orly_bourget?: number;
+    orly_disney?: number;
+    orly_versailles?: number;
+    bourget_disney?: number;
+    bourget_versailles?: number;
+    disney_versailles?: number;
 }
 
 export interface Vehicle {
@@ -44,8 +53,17 @@ export const FLEET: Vehicle[] = [
             versailles: 110,
             orly: 90,
             le_bourget: 110,
-            disney: 140,
+            disney: 110,
             cdg_orly: 120,
+            cdg_bourget: 70,
+            cdg_disney: 110,
+            cdg_versailles: 140,
+            orly_bourget: 120,
+            orly_disney: 120,
+            orly_versailles: 120,
+            bourget_disney: 110,
+            bourget_versailles: 140,
+            disney_versailles: 140,
         }
     },
     {
@@ -61,8 +79,17 @@ export const FLEET: Vehicle[] = [
             versailles: 130,
             orly: 100,
             le_bourget: 130,
-            disney: 160,
+            disney: 130,
             cdg_orly: 150,
+            cdg_bourget: 80,
+            cdg_disney: 130,
+            cdg_versailles: 160,
+            orly_bourget: 150,
+            orly_disney: 150,
+            orly_versailles: 150,
+            bourget_disney: 130,
+            bourget_versailles: 160,
+            disney_versailles: 160,
         }
     },
     {
@@ -78,8 +105,17 @@ export const FLEET: Vehicle[] = [
             versailles: 200,
             orly: 150,
             le_bourget: 200,
-            disney: 220,
+            disney: 200,
             cdg_orly: 180,
+            cdg_bourget: 100,
+            cdg_disney: 200,
+            cdg_versailles: 220,
+            orly_bourget: 180,
+            orly_disney: 180,
+            orly_versailles: 180,
+            bourget_disney: 200,
+            bourget_versailles: 220,
+            disney_versailles: 220,
         }
     }
 ];

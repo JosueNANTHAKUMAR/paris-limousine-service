@@ -16,6 +16,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://parislimousinetransfer.com"), // Use prod URL or localhost for now
   title: "Paris Limousine Service | Luxury Chauffeur in Paris",
   description: "Premium chauffeur service in Paris. Airport transfers (CDG, Orly), Disneyland Paris, and hourly hire. Book your Mercedes E-Class, V-Class, or S-Class today.",
   icons: {
