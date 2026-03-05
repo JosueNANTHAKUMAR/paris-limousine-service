@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { clsx } from "clsx";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,7 +16,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://parislimousinetransfer.com"), // Use prod URL or localhost for now
+  metadataBase: new URL("https://parislimousinetransfer.com"),
   title: "Paris Limousine Service | Luxury Chauffeur in Paris",
   description: "Premium chauffeur service in Paris. Airport transfers (CDG, Orly), Disneyland Paris, and hourly hire. Book your Mercedes E-Class, V-Class, or S-Class today.",
   icons: {
@@ -45,6 +44,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17979052174"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17979052174');
+            `,
+          }}
+        />
+      </head>
       <body
         className={clsx(
           inter.variable,
@@ -52,7 +65,6 @@ export default function RootLayout({
           "font-sans antialiased bg-slate-950 text-slate-50 min-h-screen selection:bg-gold selection:text-slate-950"
         )}
       >
-        <GoogleAnalytics />
         {children}
       </body>
     </html>
