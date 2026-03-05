@@ -1,13 +1,28 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, Home } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
+declare global {
+  interface Window {
+    gtag: (...args: unknown[]) => void;
+  }
+}
+
 function SuccessContent() {
     const searchParams = useSearchParams();
+
+    // Event snippet for "Prise de rendez-vous" conversion
+    useEffect(() => {
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "conversion", {
+          send_to: "AW-17979052174/Qza_CP-ljYMcEI6hiv1C",
+        });
+      }
+    }, []);
 
     const vehicle = searchParams.get("vehicle");
     const price = searchParams.get("price");
