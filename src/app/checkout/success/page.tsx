@@ -1,10 +1,25 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, Home } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+
+declare global {
+  interface Window { gtag?: (...args: unknown[]) => void; }
+}
+
+function fireConversion(value: number) {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: "AW-17979052174/ppMuCP6MxZIcEI6hiv1C",
+      value: value,
+      currency: "EUR",
+      transaction_id: `booking_${Date.now()}`,
+    });
+  }
+}
 
 function SuccessContent() {
     const searchParams = useSearchParams();
@@ -17,6 +32,11 @@ function SuccessContent() {
     const time = searchParams.get("time");
     const duration = searchParams.get("duration");
     const service = searchParams.get("service");
+
+    useEffect(() => {
+        fireConversion(price ? parseFloat(price) : 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">

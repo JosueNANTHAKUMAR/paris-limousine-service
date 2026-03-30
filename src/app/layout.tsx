@@ -44,6 +44,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* Google Ads Global Tag */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17979052174"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17979052174');
+            `,
+          }}
+        />
+      </head>
       <body
         className={clsx(
           inter.variable,
