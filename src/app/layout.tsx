@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://parislimousinetransfer.com"), // Use prod URL or localhost for now
+  metadataBase: new URL("https://parislimousinetransfer.com"),
   title: "Paris Limousine Service | Luxury Chauffeur in Paris",
   description: "Premium chauffeur service in Paris. Airport transfers (CDG, Orly), Disneyland Paris, and hourly hire. Book your Mercedes E-Class, V-Class, or S-Class today.",
   icons: {
@@ -45,11 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* Google Ads Global Tag */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17979052174"
-        />
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17979052174"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `

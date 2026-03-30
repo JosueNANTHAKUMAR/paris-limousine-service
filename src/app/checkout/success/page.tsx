@@ -7,11 +7,18 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 declare global {
-  interface Window { gtag?: (...args: unknown[]) => void; }
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
 }
 
 function fireConversion(value: number) {
   if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    // Event snippet for "Prise de rendez-vous"
+    window.gtag("event", "conversion", {
+      send_to: "AW-17979052174/Qza_CP-ljYMcEI6hiv1C",
+    });
+    // Event snippet for purchase conversion with value
     window.gtag("event", "conversion", {
       send_to: "AW-17979052174/ppMuCP6MxZIcEI6hiv1C",
       value: value,
