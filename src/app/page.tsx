@@ -17,6 +17,7 @@ import { useActiveSection } from "@/lib/hooks/useActiveSection";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
 import { QuoteCalculator } from "@/components/features/QuoteCalculator";
+import { PricingSection } from "@/components/features/PricingSection";
 
 export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
@@ -192,6 +193,8 @@ export default function Home() {
       <HeroSection onOpenModal={openModal} initialBookingState={bookingInitialState} />
 
       <FeaturesStrip />
+
+      <PricingSection />
 
       <DestinationsSection />
 
