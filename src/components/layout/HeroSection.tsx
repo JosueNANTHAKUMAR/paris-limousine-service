@@ -16,7 +16,7 @@ export function HeroSection({ onOpenModal, initialBookingState }: HeroSectionPro
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/photo_voiture/car-eiffel-front_upscayl_1920px_upscayl-standard-4x.png"
+                    src="/images/photo_voiture/car-hero-final.png"
                     alt="Luxury Limousine in front of Eiffel Tower"
                     fill
                     className="object-cover"
