@@ -9,7 +9,7 @@ const DESTINATIONS = [
         title: "Paris Airport Transfer",
         description: "You can pre-order inexpensive private transfer to CDG Airport",
         icon: <Plane className="h-8 w-8" />,
-        image: "/images/airport-transfer.jpg", // Placeholder
+        image: "/images/photo_voiture/car-door-open.jpeg",
         link: "#booking"
     },
     {
@@ -23,7 +23,7 @@ const DESTINATIONS = [
         title: "Paris City Transfer",
         description: "Explore Paris with private transfers from CDG and Orly Airport",
         icon: <Map className="h-8 w-8" />,
-        image: "/images/city-transfer.jpg", // Placeholder
+        image: "/images/photo_voiture/car-eiffel-side.jpeg",
         link: "#booking"
     }
 ];

@@ -16,13 +16,12 @@ export function HeroSection({ onOpenModal, initialBookingState }: HeroSectionPro
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/hero-bg.jpg"
-                    alt="Luxury Limousine in Paris"
+                    src="/images/photo_voiture/car-eiffel-front_upscayl_1920px_upscayl-standard-4x.png"
+                    alt="Luxury Limousine in front of Eiffel Tower"
                     fill
                     className="object-cover"
                     priority
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" // Simple dark placeholder
+                    unoptimized={true}
                 />
                 <div className="absolute inset-0 bg-black/60 z-10" />
             </div>

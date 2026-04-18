@@ -100,7 +100,7 @@ export default function Home() {
             <Menu className="h-6 w-6" />
           </button>
           <div className="hidden lg:block">
-            <a href="#booking" className="px-8 py-3 bg-gradient-to-r from-gold to-gold-light text-slate-950 font-bold text-xs uppercase tracking-widest rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-105 transition-all duration-300 border border-gold/50">
+            <a href="#booking" className="px-8 py-4 bg-[#D4AF37] text-black font-extrabold text-xs uppercase tracking-widest rounded-full hover:bg-[#E5C55D] shadow-xl shadow-gold/20 transform hover:scale-110 transition-all duration-300 border-2 border-white/10 active:scale-95">
               Book Now
             </a>
           </div>
@@ -180,7 +180,7 @@ export default function Home() {
                 <a
                   href="#booking"
                   onClick={() => setNavOpen(false)}
-                  className="block w-full py-3 px-6 bg-gradient-to-r from-gold to-gold-light text-slate-950 font-bold text-sm uppercase tracking-wider rounded-full text-center hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-105 transition-all duration-300"
+                  className="block w-full py-4 px-6 bg-[#D4AF37] text-black font-extrabold text-sm uppercase tracking-widest rounded-full text-center hover:bg-[#E5C55D] shadow-xl shadow-gold/20 transform active:scale-95 transition-all duration-300"
                 >
                   Book Now
                 </a>
