@@ -135,13 +135,12 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
             if (response.ok) {
                 // Trigger Google Ads Conversion
                 sendGAEvent('event', 'conversion', {
-                    'send_to': 'AW-17979052174',
+                    'send_to': 'AW-17979052174/GVN2CJ_firEcEI6hiv1C',
                     'value': quote.price || 0,
                     'currency': 'EUR'
                 });
 
-                setIsSuccess(true);
-                setStep(4);
+                router.push('/merci');
             } else {
                 alert("Something went wrong. Please try again.");
             }
