@@ -3,28 +3,29 @@
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { ArrowRight, Plane, Castle, Map } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const DESTINATIONS = [
     {
-        title: "Paris Airport Transfer",
-        description: "You can pre-order inexpensive private transfer to CDG Airport",
+        title: "CDG Airport Transfer",
+        description: "Private chauffeur from Charles de Gaulle to Paris city center. Fixed price from €110.",
         icon: <Plane className="h-8 w-8" />,
         image: "/images/photo_voiture/car-door-open.jpeg",
-        link: "#booking"
+        link: "/cdg-paris-transfer"
     },
     {
         title: "Disneyland Paris Transfer",
-        description: "Disneyland Paris private transfers from CDG Airport, Orly Airport",
+        description: "Private transfers to Disneyland Paris from CDG, Orly Airport or Paris city.",
         icon: <Castle className="h-8 w-8" />,
-        image: "/images/disney-transfer.jpg", // Placeholder
-        link: "#booking"
+        image: "/images/disney-transfer.jpg",
+        link: "/disneyland-paris-transfer"
     },
     {
-        title: "Paris City Transfer",
-        description: "Explore Paris with private transfers from CDG and Orly Airport",
+        title: "Orly Airport Transfer",
+        description: "Private chauffeur from Orly Airport to Paris city center. Fixed price from €90.",
         icon: <Map className="h-8 w-8" />,
         image: "/images/photo_voiture/car-eiffel-side.jpeg",
-        link: "#booking"
+        link: "/orly-paris-transfer"
     }
 ];
 
@@ -47,7 +48,7 @@ export function DestinationsSection() {
                 <div className="grid md:grid-cols-3 gap-8">
                     {DESTINATIONS.map((dest, idx) => (
                         <ScrollReveal key={idx} delay={idx * 0.1}>
-                            <div className="group relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden cursor-pointer">
+                            <Link href={dest.link} className="group relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden cursor-pointer block">
                                 {/* Background Image */}
                                 <div className="absolute inset-0 bg-slate-900">
                                     {/* Placeholder for image */}
@@ -75,9 +76,11 @@ export function DestinationsSection() {
                                         {dest.description}
                                     </p>
 
-                                    {/* View Details removed */}
+                                    <span className="inline-flex items-center gap-2 text-gold text-sm font-semibold uppercase tracking-wider">
+                                        See prices <ArrowRight className="h-4 w-4" />
+                                    </span>
                                 </div>
-                            </div>
+                            </Link>
                         </ScrollReveal>
                     ))}
                 </div>

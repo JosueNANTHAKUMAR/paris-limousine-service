@@ -2,6 +2,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { BackgroundPattern } from "@/components/ui/BackgroundPattern";
 import { ArrowRight, Plane, MapPin } from "lucide-react";
+import Link from "next/link";
 
 interface PriceRoute {
   from: string;
@@ -10,15 +11,16 @@ interface PriceRoute {
   toIcon?: "plane" | "pin";
   priceFrom: number;
   popular?: boolean;
+  slug: string;
 }
 
 const PRICE_ROUTES: PriceRoute[] = [
-  { from: "CDG Airport", to: "Paris City", fromIcon: "plane", toIcon: "pin", priceFrom: 110, popular: true },
-  { from: "Orly Airport", to: "Paris City", fromIcon: "plane", toIcon: "pin", priceFrom: 90 },
-  { from: "CDG Airport", to: "Disneyland Paris", fromIcon: "plane", toIcon: "pin", priceFrom: 110 },
-  { from: "CDG Airport", to: "Versailles", fromIcon: "plane", toIcon: "pin", priceFrom: 140 },
-  { from: "Orly Airport", to: "Disneyland Paris", fromIcon: "plane", toIcon: "pin", priceFrom: 120 },
-  { from: "Paris City", to: "Versailles", fromIcon: "pin", toIcon: "pin", priceFrom: 110 },
+  { from: "CDG Airport", to: "Paris City", fromIcon: "plane", toIcon: "pin", priceFrom: 110, popular: true, slug: "cdg-paris-transfer" },
+  { from: "Orly Airport", to: "Paris City", fromIcon: "plane", toIcon: "pin", priceFrom: 90, slug: "orly-paris-transfer" },
+  { from: "CDG Airport", to: "Disneyland Paris", fromIcon: "plane", toIcon: "pin", priceFrom: 110, slug: "disneyland-paris-transfer" },
+  { from: "CDG Airport", to: "Versailles", fromIcon: "plane", toIcon: "pin", priceFrom: 140, slug: "cdg-versailles-transfer" },
+  { from: "Orly Airport", to: "Disneyland Paris", fromIcon: "plane", toIcon: "pin", priceFrom: 120, slug: "orly-disneyland-transfer" },
+  { from: "Paris City", to: "Versailles", fromIcon: "pin", toIcon: "pin", priceFrom: 110, slug: "paris-versailles-transfer" },
 ];
 
 function RouteIcon({ type }: { type?: "plane" | "pin" }) {
@@ -75,12 +77,12 @@ export function PricingSection() {
                       </p>
                       <p className="text-xs text-slate-400 mt-1">Mercedes E-Class · 1–4 pax</p>
                     </div>
-                    <a
-                      href="#booking"
+                    <Link
+                      href={`/${route.slug}#book`}
                       className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-950 bg-white hover:bg-slate-100 px-4 py-2.5 rounded-full transition-all duration-200 shadow-lg shadow-white/20 hover:shadow-xl hover:shadow-white/40 border border-white/80"
                     >
                       Book <ArrowRight className="h-3.5 w-3.5" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

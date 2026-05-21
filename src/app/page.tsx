@@ -270,17 +270,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-24 bg-slate-950 relative z-10">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <ScrollReveal>
+            <SectionTitle
+              title="Frequently Asked Questions"
+              subtitle="Everything you need to know before booking your Paris transfer"
+              light
+            />
+          </ScrollReveal>
+          <div className="space-y-4">
+            {[
+              {
+                q: "How much does a CDG airport transfer to Paris cost?",
+                a: "From €110 for the Mercedes E-Class (up to 4 passengers). The price is fixed and all-inclusive — no meter, no hidden fees, no toll surcharges."
+              },
+              {
+                q: "How long does the journey from CDG to Paris take?",
+                a: "Approximately 40–55 minutes by private car. CDG is 35 km north-east of Paris. Traffic can vary; we always account for it in our scheduling."
+              },
+              {
+                q: "Do you cover Orly Airport?",
+                a: "Yes. Orly to Paris starts from €90. All four Orly terminals covered (Orly 1, 2, 3, 4). Orly is only 14 km from central Paris."
+              },
+              {
+                q: "What happens if my flight is delayed?",
+                a: "We track all flights in real time. Your driver is notified automatically and waits at no extra charge. You will never be left stranded."
+              },
+              {
+                q: "Can I go directly from the airport to Disneyland Paris?",
+                a: "Yes. CDG → Disneyland Paris from €110, Orly → Disneyland from €120. Direct route, no Paris transit, child seats available."
+              },
+              {
+                q: "Do you offer transfers to Versailles?",
+                a: "Yes. Paris → Versailles from €110, CDG → Versailles from €140, Orly → Versailles from €120. All fixed prices, door to Palace entrance."
+              },
+              {
+                q: "How do I meet my driver at the airport?",
+                a: "Your driver waits in the arrivals hall with a name board. All CDG terminals (T1, T2A–F, T3) and all Orly terminals are covered."
+              },
+              {
+                q: "What vehicles are available?",
+                a: "Mercedes E-Class (up to 4 pax), V-Class (up to 7 pax — ideal for families), and S-Class (up to 3 pax — first-class comfort)."
+              },
+            ].map((item, i) => (
+              <ScrollReveal key={i} delay={i * 0.05}>
+                <details className="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-gold/30 transition-colors">
+                  <summary className="flex items-center justify-between p-6 cursor-pointer list-none gap-4">
+                    <h3 className="text-slate-200 font-medium text-base pr-4">{item.q}</h3>
+                    <span className="text-gold text-xl shrink-0 group-open:rotate-45 transition-transform duration-300">+</span>
+                  </summary>
+                  <div className="px-6 pb-6 text-slate-400 font-light leading-relaxed border-t border-slate-800/50 pt-4">
+                    {item.a}
+                  </div>
+                </details>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer id="contact" className="bg-slate-950 pt-24 pb-12 border-t border-slate-900 relative z-10">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2">
-              <div className="text-3xl font-serif font-bold text-slate-50 mb-6 tracking-tight">
-                Paris<span className="text-gold">LimousineService</span>
+            <div>
+              <div className="text-2xl font-serif font-bold text-slate-50 mb-4 tracking-tight">
+                Paris<span className="text-gold">AirportsTransfers</span>
               </div>
-              <p className="text-slate-400 max-w-sm leading-relaxed font-light">
-                We are the most popular limousine service in Paris.
-                Providing luxury chauffeur services with a focus on safety, comfort, and reliability.
+              <p className="text-slate-400 leading-relaxed font-light text-sm">
+                Premium private chauffeur service in Paris.
+                Fixed-rate airport transfers 24/7 — CDG, Orly, Le Bourget, Versailles, Disneyland.
               </p>
             </div>
 
@@ -292,10 +353,34 @@ export default function Home() {
               <ul className="space-y-4">
                 {NAV_LINKS.map(link => (
                   <li key={link.label}>
-                    <a href={link.href} className="text-slate-400 hover:text-gold transition-colors flex items-center group">
+                    <a href={link.href} className="text-slate-400 hover:text-gold transition-colors flex items-center group text-sm">
                       <span className="w-1.5 h-1.5 bg-gold rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                       {link.label}
                     </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-serif text-slate-50 mb-8 relative inline-block">
+                Popular Transfers
+                <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-gold"></span>
+              </h4>
+              <ul className="space-y-4">
+                {[
+                  { label: "CDG → Paris", href: "/cdg-paris-transfer" },
+                  { label: "Orly → Paris", href: "/orly-paris-transfer" },
+                  { label: "CDG → Disneyland", href: "/disneyland-paris-transfer" },
+                  { label: "Paris → Versailles", href: "/paris-versailles-transfer" },
+                  { label: "CDG → Versailles", href: "/cdg-versailles-transfer" },
+                  { label: "All routes →", href: "/transfers" },
+                ].map(link => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-slate-400 hover:text-gold transition-colors flex items-center group text-sm">
+                      <span className="w-1.5 h-1.5 bg-gold rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -311,19 +396,22 @@ export default function Home() {
                   <div className="p-2 bg-slate-900 rounded-lg group-hover:bg-gold group-hover:text-slate-950 transition-colors">
                     <MapPin className="h-5 w-5 shrink-0" />
                   </div>
-                  <span className="mt-1 font-light">{CONTACT_INFO.address}</span>
+                  <span className="mt-1 font-light text-sm">{CONTACT_INFO.address}</span>
                 </li>
                 <li className="flex items-center space-x-4 text-slate-400 group">
                   <div className="p-2 bg-slate-900 rounded-lg group-hover:bg-gold group-hover:text-slate-950 transition-colors">
                     <Mail className="h-5 w-5 shrink-0" />
                   </div>
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="font-light hover:text-gold transition-colors">{CONTACT_INFO.email}</a>
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="font-light hover:text-gold transition-colors text-sm">{CONTACT_INFO.email}</a>
                 </li>
                 <li className="flex items-center space-x-4 text-slate-400 group">
                   <div className="p-2 bg-slate-900 rounded-lg group-hover:bg-gold group-hover:text-slate-950 transition-colors">
                     <Phone className="h-5 w-5 shrink-0" />
                   </div>
-                  <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, '')}`} className="font-light hover:text-gold transition-colors">{CONTACT_INFO.phone}</a>
+                  <a href={CONTACT_INFO.whatsapp} target="_blank" rel="noopener noreferrer" className="font-light hover:text-gold transition-colors text-sm flex items-center gap-2">
+                    {CONTACT_INFO.phone}
+                    <span className="text-[10px] bg-[#25D366] text-white px-1.5 py-0.5 rounded font-bold">WhatsApp</span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -331,7 +419,6 @@ export default function Home() {
 
           <div className="border-t border-slate-900 pt-8 text-center text-slate-500 text-sm font-light">
             <p>{CONTACT_INFO.copyright}</p>
-            <p className="mt-2">Design and Developed by Web Page Ltd</p>
           </div>
         </div>
       </footer>

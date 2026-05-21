@@ -21,7 +21,7 @@ export function HeroSection({ onOpenModal, initialBookingState }: HeroSectionPro
                     fill
                     className="object-cover"
                     priority
-                    unoptimized={true}
+                    quality={85}
                 />
                 <div className="absolute inset-0 bg-black/60 z-10" />
             </div>
@@ -29,14 +29,17 @@ export function HeroSection({ onOpenModal, initialBookingState }: HeroSectionPro
             <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-8 text-center lg:text-left">
                     <div className="space-y-4">
-                        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-serif text-slate-50 leading-[1.1] tracking-tight">
-                            Experience Paris
+                        <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+                            CDG · Orly · Versailles · Disneyland
+                        </p>
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-slate-50 leading-[1.1] tracking-tight">
+                            Paris Airport<br className="hidden sm:block" /> Transfers
                         </h1>
                         <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
                             <div className="h-[1px] sm:h-[2px] w-12 sm:w-16 bg-gradient-to-r from-transparent to-gold"></div>
-                            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-[#D4AF37] italic">
+                            <p className="text-2xl sm:text-4xl lg:text-4xl font-serif text-[#D4AF37] italic">
                                 in Timeless Luxury
-                            </h2>
+                            </p>
                         </div>
                     </div>
                     <p className="text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">

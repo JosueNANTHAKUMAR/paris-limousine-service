@@ -17,17 +17,19 @@ interface QuoteCalculatorProps {
     isModal?: boolean;
     initialServiceType?: ServiceType;
     initialDuration?: string;
+    initialDeparture?: LocationId;
+    initialArrival?: LocationId;
 }
 
-export function QuoteCalculator({ isModal = false, initialServiceType = 'distance', initialDuration = "3" }: QuoteCalculatorProps) {
+export function QuoteCalculator({ isModal = false, initialServiceType = 'distance', initialDuration = "3", initialDeparture, initialArrival }: QuoteCalculatorProps) {
     const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
     const [serviceType, setServiceType] = useState<ServiceType>(initialServiceType);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
     const [formData, setFormData] = useState({
-        departure: "" as LocationId | "",
-        arrival: "" as LocationId | "",
+        departure: (initialDeparture || "") as LocationId | "",
+        arrival: (initialArrival || "") as LocationId | "",
         pickupAddress: "",
         flightNumber: "",
         dropoffAddress: "",
@@ -45,12 +47,14 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         setFormData(prev => ({
             ...prev,
             duration: initialDuration,
+            departure: (initialDeparture || prev.departure) as LocationId | "",
+            arrival: (initialArrival || prev.arrival) as LocationId | "",
             pickupAddress: "",
             flightNumber: "",
             dropoffAddress: "",
             passengers: 1
         }));
-    }, [initialServiceType, initialDuration]);
+    }, [initialServiceType, initialDuration, initialDeparture, initialArrival]);
 
     const quote = useQuote({
         departure: formData.departure,

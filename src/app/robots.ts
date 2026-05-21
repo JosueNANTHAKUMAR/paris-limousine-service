@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/', '/checkout/'],
     },
-    sitemap: 'https://www.parislimousineservice.fr/sitemap.xml',
+    sitemap: 'https://www.parisairportstransfers.com/sitemap.xml',
   }
 }

@@ -133,6 +133,7 @@ export const NAV_LINKS = [
 export const CONTACT_INFO = {
     address: "92 Avenue Henri Martin, 75016 Paris",
     email: "parislimousinetransfer@gmail.com",
-    phone: "+33 6 95 83 35 71",
+    phone: "+33 7 81 82 21 63",
+    whatsapp: "https://wa.me/33781822163?text=Hello%2C%20I%27d%20like%20to%20book%20a%20Paris%20transfer",
     copyright: "© Copyright 2012 - 2025 • Paris Taxi • All Rights Reserved"
 };
