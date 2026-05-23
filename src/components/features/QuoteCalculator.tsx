@@ -38,6 +38,9 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         time: "",
         vehicleId: FLEET[0].id,
         passengers: 1,
+        firstName: "",
+        lastName: "",
+        phone: "",
         email: "",
     });
 
@@ -82,6 +85,9 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         }
 
         if (step === 3) {
+            if (!formData.firstName.trim()) return alert("Please enter your first name");
+            if (!formData.lastName.trim()) return alert("Please enter your last name");
+            if (!formData.phone.trim()) return alert("Please enter your phone number");
             if (!formData.email || !formData.email.includes('@')) return alert("Please enter a valid email address");
             handleBookNow();
             return;
@@ -112,10 +118,10 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    firstName: "Lead",
-                    lastName: "Inquiry",
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
                     email: formData.email,
-                    phone: "N/A",
+                    phone: formData.phone,
                     address: formData.pickupAddress || formData.departure,
                     additionalInfo: `Flight: ${formData.flightNumber || 'N/A'}`,
                     bookingDetails: {
@@ -488,12 +494,46 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                             </div>
 
                             <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">First Name</label>
+                                        <input
+                                            type="text"
+                                            placeholder="John"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 px-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
+                                            value={formData.firstName}
+                                            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Last Name</label>
+                                        <input
+                                            type="text"
+                                            placeholder="Doe"
+                                            className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 px-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
+                                            value={formData.lastName}
+                                            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        placeholder="+1 234 567 8900"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 px-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
+                                        value={formData.phone}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        required
+                                    />
+                                </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Email Address</label>
                                     <input
                                         type="email"
                                         placeholder="your@email.com"
-                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-4 px-6 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900 text-lg"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 px-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         required
