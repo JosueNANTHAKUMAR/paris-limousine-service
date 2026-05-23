@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-const WHATSAPP_PHONE = '33781822163';
+const WHATSAPP_PHONE = '33667014515';
 const WHATSAPP_APIKEY = '6164827';
 
 async function sendWhatsApp(message: string) {
@@ -127,6 +127,7 @@ export async function POST(request: Request) {
     // Confirmation email to client
     const clientMail = {
       from: `"Paris Airports Transfers" <${process.env.EMAIL_USER}>`,
+      replyTo: 'parislimousinetransfer@gmail.com',
       to: email,
       subject: `✅ Booking Request Confirmed — ${bookingDetails.departure} → ${bookingDetails.arrival || bookingDetails.duration + 'h'} on ${bookingDetails.date}`,
       html: `
