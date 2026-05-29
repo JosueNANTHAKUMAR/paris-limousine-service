@@ -190,6 +190,7 @@ const jsonLd = {
 };
 
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
 
 export default function RootLayout({
   children,
@@ -221,6 +222,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <WhatsAppFloat />
       </body>
     </html>
   );

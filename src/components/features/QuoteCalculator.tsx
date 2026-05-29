@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { clsx } from "clsx";
 import { AddressAutocomplete } from "@/components/ui/AddressAutocomplete";
 import { sendGAEvent } from '@next/third-parties/google';
+import { TrustBadges } from "@/components/ui/TrustBadges";
 
 type ServiceType = 'distance' | 'hourly';
 
@@ -26,6 +27,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
     const [serviceType, setServiceType] = useState<ServiceType>(initialServiceType);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
         departure: (initialDeparture || "") as LocationId | "",
@@ -76,19 +78,25 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         }
     }, [formData.vehicleId, maxPassengers]);
 
+    const showError = (msg: string) => {
+        setError(msg);
+        setTimeout(() => setError(null), 4000);
+    };
+
     const handleNext = () => {
+        setError(null);
         if (step === 1) {
-            if (!formData.departure) return alert("Please select a pick-up location");
-            if (serviceType === 'distance' && !formData.arrival) return alert("Please select a drop-off location");
-            if (!formData.date) return alert("Please select a date");
-            if (!formData.time) return alert("Please select a time");
+            if (!formData.departure) return showError("Please select a pick-up location");
+            if (serviceType === 'distance' && !formData.arrival) return showError("Please select a drop-off location");
+            if (!formData.date) return showError("Please select a date");
+            if (!formData.time) return showError("Please select a time");
         }
 
         if (step === 3) {
-            if (!formData.firstName.trim()) return alert("Please enter your first name");
-            if (!formData.lastName.trim()) return alert("Please enter your last name");
-            if (!formData.phone.trim()) return alert("Please enter your phone number");
-            if (!formData.email || !formData.email.includes('@')) return alert("Please enter a valid email address");
+            if (!formData.firstName.trim()) return showError("Please enter your first name");
+            if (!formData.lastName.trim()) return showError("Please enter your last name");
+            if (!formData.phone.trim()) return showError("Please enter your phone number");
+            if (!formData.email || !formData.email.includes('@')) return showError("Please enter a valid email address");
             handleBookNow();
             return;
         }
@@ -148,11 +156,11 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
 
                 router.push('/merci');
             } else {
-                alert("Something went wrong. Please try again.");
+                showError("Something went wrong. Please try again.");
             }
         } catch (error) {
             console.error(error);
-            alert("Error sending request.");
+            showError("Connection error. Please try again.");
         } finally {
             setIsSubmitting(false);
         }
@@ -609,6 +617,21 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                     )}
                 </AnimatePresence >
             </div >
+
+            {/* Error message */}
+            {error && (
+              <div className="mx-4 sm:mx-6 mb-2 flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-sm text-red-400">
+                <span className="shrink-0">⚠️</span>
+                {error}
+              </div>
+            )}
+
+            {/* Trust badges — visible on step 3 */}
+            {step === 3 && !isSuccess && (
+              <div className="px-4 sm:px-6 pb-2">
+                <TrustBadges />
+              </div>
+            )}
 
             {/* Footer */}
             {!isSuccess && (
