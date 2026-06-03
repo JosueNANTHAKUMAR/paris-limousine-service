@@ -9,7 +9,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contact us on WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white rounded-full shadow-lg hover:bg-[#20bd5a] transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#25D366]/30"
+      className="hidden lg:flex fixed bottom-6 right-6 z-50 items-center gap-2 bg-[#25D366] text-white rounded-full shadow-lg hover:bg-[#20bd5a] transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#25D366]/30"
     >
       <div className="flex items-center gap-2 px-4 py-3">
         <svg className="h-6 w-6 fill-current shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
