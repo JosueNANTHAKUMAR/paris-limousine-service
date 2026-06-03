@@ -87,7 +87,13 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
         setError(null);
         if (step === 1) {
             if (!formData.departure) return showError("Please select a pick-up location");
+            if (!['cdg', 'orly', 'le_bourget'].includes(formData.departure) && !formData.pickupAddress.trim())
+                return showError("Please enter your exact pick-up address");
             if (serviceType === 'distance' && !formData.arrival) return showError("Please select a drop-off location");
+            if (serviceType === 'distance' && !['cdg', 'orly', 'le_bourget'].includes(formData.arrival) && !formData.dropoffAddress.trim())
+                return showError("Please enter your exact drop-off address");
+            if ((['cdg', 'orly', 'le_bourget'].includes(formData.departure) || ['cdg', 'orly', 'le_bourget'].includes(formData.arrival)) && !formData.flightNumber.trim())
+                return showError("Please enter your flight number");
             if (!formData.date) return showError("Please select a date");
             if (!formData.time) return showError("Please select a time");
         }
@@ -274,6 +280,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                 </div>
                                 {!['cdg', 'orly', 'le_bourget'].includes(formData.departure) && (
                                     <div className="mt-2">
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1 mb-1 block">Exact Address <span className="text-red-400">*</span></label>
                                         <AddressAutocomplete
                                             icon={<MapPin className="h-5 w-5 text-slate-500 transition-colors" />}
                                             placeholder="Address or Hotel Name"
@@ -303,6 +310,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                         </div>
                                         {!['cdg', 'orly', 'le_bourget'].includes(formData.arrival) && (
                                             <div className="mt-2">
+                                                <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1 mb-1 block">Exact Address <span className="text-red-400">*</span></label>
                                                 <AddressAutocomplete
                                                     icon={<MapPin className="h-5 w-5 text-slate-500 transition-colors" />}
                                                     placeholder="Address or Hotel Name"
@@ -335,15 +343,16 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                             {/* Flight Number Field (Condition: Airport Pickup OR Dropoff) */}
                             {(['cdg', 'orly', 'le_bourget'].includes(formData.departure) || ['cdg', 'orly', 'le_bourget'].includes(formData.arrival)) && (
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Flight Number</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Flight Number <span className="text-red-400">*</span></label>
                                     <div className="relative group">
                                         <Plane className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <input
                                             type="text"
-                                            placeholder="Flight Number"
+                                            placeholder="e.g. AF1234"
                                             className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900 text-sm sm:text-base"
                                             value={formData.flightNumber}
                                             onChange={(e) => setFormData({ ...formData, flightNumber: e.target.value })}
+                                            required
                                         />
                                     </div>
                                 </div>
