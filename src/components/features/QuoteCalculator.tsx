@@ -258,7 +258,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                             className="space-y-5"
                         >
                             <div className="space-y-2">
-                                <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Pick Up</label>
+                                <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Pick Up <span className="text-red-400">*</span></label>
                                 <div className="relative group">
                                     <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                     <select
@@ -287,7 +287,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                             {
                                 serviceType === 'distance' ? (
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Drop Off</label>
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Drop Off <span className="text-red-400">*</span></label>
                                         <div className="relative group">
                                             <MapPin className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                             <select
@@ -351,7 +351,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Date</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Date <span className="text-red-400">*</span></label>
                                     <div className="relative group">
                                         <Calendar className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <input
@@ -364,7 +364,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Time</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Time <span className="text-red-400">*</span></label>
                                     <div className="relative group">
                                         <Clock className="absolute left-4 top-3 h-5 w-5 text-slate-500 group-focus-within:text-gold transition-colors" />
                                         <input
@@ -504,7 +504,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                             <div className="space-y-4">
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">First Name</label>
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">First Name <span className="text-red-400">*</span></label>
                                         <input
                                             type="text"
                                             placeholder="John"
@@ -515,18 +515,19 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Last Name</label>
+                                        <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Last Name <span className="text-red-400">*</span></label>
                                         <input
                                             type="text"
                                             placeholder="Doe"
                                             className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-3 px-4 text-slate-50 focus:ring-2 focus:ring-gold/50 focus:border-gold/50 outline-none transition-all hover:bg-slate-900"
                                             value={formData.lastName}
                                             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                            required
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Phone Number</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Phone Number <span className="text-red-400">*</span></label>
                                     <input
                                         type="tel"
                                         placeholder="+1 234 567 8900"
@@ -537,7 +538,7 @@ export function QuoteCalculator({ isModal = false, initialServiceType = 'distanc
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Email Address</label>
+                                    <label className="text-xs font-semibold text-gold uppercase tracking-wider ml-1">Email Address <span className="text-red-400">*</span></label>
                                     <input
                                         type="email"
                                         placeholder="your@email.com"
